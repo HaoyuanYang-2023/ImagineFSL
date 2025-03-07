@@ -1,0 +1,133 @@
+{
+  "pets": [
+    "Eye-level shot",
+    "Low-angle shot",
+    "Ground-level frontal shot",
+    "Slightly elevated front view",
+    "Close-up of face",
+    "Profile view",
+    "Three-quarter view",
+    "Overhead shot",
+    "From-behind angle"],
+  "food101": [
+    "front view",
+    "side view",
+    "rear view",
+    "Top-Down view",
+    "Eye-Level",
+    "Low-Angle",
+    "High-Angle",
+    "Three-Quarter View",
+    "Wide Angle",
+    "Detail Shots",
+    "Long shot",
+    "Medium shot",
+    "Close-up"
+  ],
+  "eurosat":
+          [
+"Nadir view", "Orthophoto", "High-angle"
+
+          ],
+  "ucf101_frames": [
+    "front view",
+    "Eye-level shot",
+    "Low-angle shot",
+    "Ground-level frontal shot",
+    "Slightly elevated front view",
+    "Close-up of face",
+    "Profile view",
+    "half-profile view",
+    "Three-quarter view",
+    "From-behind angle",
+    "Bird's-eye view",
+    "Wide Angle",
+    "Long shot",
+    "Extreme long shot",
+    "Medium shot"
+  ],
+  "aircraft": [
+    "side view",
+    "side view",
+    "side view",
+    "side view",
+    "front view",
+    "three-quarter view",
+    "bottom-up view",
+    "air-to-air view"],
+  "cars": [
+    "side view",
+    "side view",
+    "front view",
+    "rear view",
+    "three-quarter front view",
+    "three-quarter rear view"
+  ],
+  "caltech101": [
+    "close up"
+  ],
+  "flowers": [
+    "close up"
+  ],
+  "dtd": [
+    "close up"
+  ],
+  "sun397": [
+    "front view",
+    "side view",
+    "rear view",
+    "three-quarter front view",
+    "three-quarter rear view",
+    "profile view",
+    "half-profile view",
+    "back view",
+    "direct view",
+    "angled view",
+    "oblique angle",
+    "three-quarter view",
+    "perspective view",
+    "tilted view",
+    "panoramic view",
+    "canted angle",
+    "backlit view",
+    "Wide Angle",
+    "Long shot",
+    "Extreme long shot",
+    "Medium shot"
+],
+"imagenet": [
+  "front view",
+  "side view",
+  "rear view",
+  "three-quarter front view",
+  "three-quarter rear view",
+  "half-profile view",
+  "back view",
+  "oblique front view",
+  "oblique rear view",
+  "direct view",
+  "angled view",
+  "oblique angle",
+  "aerial view",
+  "three-quarter view",
+  "panoramic view",
+  "canted angle",
+  "backlit view",
+  "Top-Down view",
+  "Eye-Level",
+  "Low-Angle",
+  "High-Angle",
+  "Bird's-Eye View",
+  "Worm's-Eye View",
+  "Profile View",
+  "Three-Quarter View",
+  "45-degree angle",
+  "Overhead",
+  "Wide Angle",
+  "Dutch Angle",
+  "Detail Shots",
+  "Long shot",
+  "Extreme long shot",
+  "Medium shot"
+]
+}

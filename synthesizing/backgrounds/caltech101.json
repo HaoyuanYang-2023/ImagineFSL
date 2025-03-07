@@ -1,0 +1,25 @@
+{
+  "caltech101": [
+    "Living room",
+  "Studio backdrop",
+  "Kitchen",
+  "Bedroom",
+  "Porch",
+  "Armchair",
+  "Staircase",
+  "Window sill",
+  "Pet bed",
+  "Blanket",
+    "Garden",
+  "Backyard",
+  "Cafe",
+    "Balcony",
+    "Park",
+    "Car interior",
+  "Urban street",
+  "Flower field",
+  "Autumn leaves",
+  "Snowy landscape",
+  "Grassy meadow",
+  "Couch"]
+}

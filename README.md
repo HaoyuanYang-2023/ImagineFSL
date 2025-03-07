@@ -103,7 +103,7 @@ python syn_examples.py \
 
 <h3> Synthesize Captions </h3>
 
-We use Llama 3 to synthesize text. The Llama 3 weight files can be downloaded [here](http://).
+We use Llama 3 to synthesize text. The Llama 3 weight files can be downloaded [here](https://huggingface.co/meta-llama/Meta-Llama-3-8B).
 
 Get into the Llama 3 directory:
 
