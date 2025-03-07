@@ -10,7 +10,7 @@
     <a href="http://peihuali.org/ImagineFSL">[Project]</a>
 </h4>
 
-<div align="center"><img src="figures/overview.png" width="90%"></div>
+<div align="center"><img src="imgs/overview.png" width="90%"></div>
 
 ## Introduction
 
@@ -28,7 +28,14 @@ In this paper:
 
 - 10 Datasets (Real Images):
 
-  We provide [download links](https://) for the 10 datasets used in our experiments (except ImageNet). These datasets are identical to those provided by [CoOp](https://github.com/KaiyangZhou/CoOp/blob/main/DATASETS.md) but with standardized file organization for PyTorch compatibility.
+  We provide download links for the 10 datasets used in our experiments (except ImageNet). 
+  
+   [Baidu Yun](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) (code: 7fm5)
+
+   [Google Drive](https://)
+
+
+  These datasets are identical to those provided by [CoOp](https://github.com/KaiyangZhou/CoOp/blob/main/DATASETS.md) but with standardized file organization for PyTorch compatibility.
 
 ## Installation
 
@@ -63,29 +70,46 @@ pip install -r requirements.txt
 
 ### 1. Synthesizing Captions & Images
 
-#### Require Factors by GPT
-
-Run the following command to synthesize Factors:
+Run the following command to get into the synthesizing directory:
 
 ```
-python synthesizing/synthesize_factors.py --model gpt-4o --api_key YOUR_API_KEY --category DATASET_NAME
+cd synthesizing
 ```
 
-You need to register an account on [OpenAI](https://platform.openai.com/docs/guides/authentication) and obtain an API_KEY.
+<h3> Require Factors by GPT </h3>
 
-#### Synthesize Examples
+For example, to synthesize attributes:
+```
+python syn_attribute.py \
+--api_key YOUR API_KEY \
+--model gpt-4o \
+--dataset DATASET_NAME \ 
+``` 
 
-运行如下命令合成Examples:
+You need to register an account on [OpenAI](https://platform.openai.com/docs/guides/authentication) and obtain an API_KEY. For more details, refer to the [OpenAI API documentation](https://platform.openai.com/docs/guides/authentication).
+
+<h3> Synthesize Examples </h3>
+
+Run the following command to synthesize examples:
 
 ```
-python synthesizing/synthesize_examples.py --model gpt-4o --api_key YOUR_API_KEY --category DATASET_NAME
+python syn_examples.py \
+--api_key YOUR API_KEY \
+--model gpt-4o \
+--dataset DATASET_NAME \ 
+``` 
+
+<h3> Synthesize Captions </h3>
+
+We use Llama 3 to synthesize text. The Llama 3 weight files can be downloaded [here](http://).
+
+Get into the Llama 3 directory:
+
+```
+cd synthesizing/llama_syn
 ```
 
-#### Synthesize Captions
-
-我们使用Llama 3合成文本，Llama 3 的权重文件可以在[这里](http://)下载。
-
-需要额外安装Llama3推理所需的依赖:
+Install additional dependencies required for Llama 3 inference:
 
 ```
 fire==0.3.0
@@ -95,32 +119,35 @@ blobfile==0.3.0
 tqdm==4.66.5
 ```
 
-运行如下命令：
+Run the following command:
 
 ```
-python synthesizing/synthesize_captions.py
+python syn_examples.py
 ```
 
-#### Synthesize Images
+<h3> Synthesize Images </h3>
 
-我们使用TensorrtRT加速的SD3合成图像，具体代码参考[NVIDA 提供的示例](https://github.com/NVIDIA/TensorRT/tree/release/10.8/demo/Diffusion)
+We use Stable Diffusion 3 Medium accelerated by TensorRT to synthesize images. Refer to the [NVIDIA provided example](https://github.com/NVIDIA/TensorRT/tree/release/10.8/demo/Diffusion) for details.
 
+----
 ### 2. Pretraining  
 
-使用以下命令进行预训练：
+Use the following command for pretraining:
 
 ```
 sh run.sh
 ```
 
-配置文件：dinov2/config/train/clip_b16.yaml
+Configuration file: dinov2/config/train/clip_b16.yaml
 
-注意：您需要在配置文件中指定预训练的数据集路径。
+Note: You need to specify the dataset path for pretraining in the configuration file.
 
-我们提供了预训练模型的下载链接：
+We provide download links for the pretrained models:
 
 - CLIP-ViT-B/16: [https://](https://)
 - CLIP-ViT-L/14: [https://](https://)
+
+----
 
 ### 3. Few-shot Fine-tuning
 
@@ -129,21 +156,26 @@ sh run.sh
 ```
 sh run_ct.sh
 ```
+Set the configuration file in  xxx.py and dataset path in the xxx.py.
 
 **ImagineFSL$_\text{LoRA}$**:
 
 ```
-sh run_ct.sh
+sh run_ct_lora.sh
 ```
 
-我们提供了11个数据集的微调模型的下载链接：
+Set the configuration file in  xxx.py and dataset path in the xxx.py.
+
+We provide download links for the fine-tuned models (ViT-B/16) across 11 datasets:
 
 - ImagineFSL: [https://](https://)
-- ImagineFSL$_\text{LoRA}$: Coming soon.
+- ImagineFSL$_\text{LoRA}$: [Coming soon.](http://)
 
 **Note that the results is slightly different to the results in paper due to randomness in traning.**
 
 **We recommend evaluated all methods and models across 11 datasets.**
+
+----
 
 ### 4. Evaluation
 
@@ -151,7 +183,7 @@ Code for evalution only is coming soon...
 
 ## Acknowledgement
 
-- Thanks for CoOp (Dataset), DINOv2 (Pretraining), DISEF (Fine-tuning), SynCLR (Synthesizing Text)
+- Thanks for CoOp (Dataset), DINOv2 (Pretraining), DISEF (Fine-tuning), SynCLR (Synthesizing Text).
 - Thanks also go to authors of other papers who make their code publicly available.
 
 ## Citation
