@@ -12,7 +12,7 @@
     <a href="http://peihuali.org/ImagineFSL">[Project]</a>
 </h4>
 
-<div align="center"><img src="figures/overview.png" width="90%"></div>
+<div align="center"><img src="imgs/overview.png" width="90%"></div>
 
 ## Introduction
 
@@ -88,7 +88,7 @@ python syn_attribute.py \
 --dataset DATASET_NAME \ 
 ``` 
 
-You need to register an account on [OpenAI](https://platform.openai.com/docs/guides/authentication) and obtain an API_KEY. For more details, refer to the [OpenAI API documentation](https://platform.openai.com/docs/guides/authentication).
+You need to register an account on [OpenAI](https://platform.openai.com/docs/overview) and obtain an API_KEY. For more details, refer to the [OpenAI API documentation](https://platform.openai.com/docs/quickstart).
 
 <h3> Synthesize Examples </h3>
 
@@ -124,7 +124,7 @@ tqdm==4.66.5
 Run the following command:
 
 ```
-python syn_examples.py
+Coming Soon ...
 ```
 
 <h3> Synthesize Images </h3>
@@ -137,12 +137,15 @@ We use Stable Diffusion 3 Medium accelerated by TensorRT to synthesize images. R
 Use the following command for pretraining:
 
 ```
-sh run.sh
+sh run_pretrain.sh
 ```
 
-Configuration file: dinov2/config/train/clip_b16.yaml
+Configuration file: 
+```
+dinov2/config/train/clip_b16.yaml
+```
 
-Note: You need to specify the dataset path for pretraining in the configuration file.
+**Note**: You need to specify the dataset path for pretraining in the configuration file.
 
 We provide download links for the pretrained models:
 
