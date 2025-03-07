@@ -2,16 +2,17 @@
 
 <h3 align="center">Haoyuan Yang &nbsp;&nbsp; Xiaoou Li &nbsp;&nbsp; Jiaming Lv &nbsp;&nbsp; Xianjun Cheng &nbsp;&nbsp; Qilong Wang &nbsp;&nbsp; Peihua Li</h3>
 
-<h5 align="center">Dalian University of Technology &nbsp; Beijing University of Posts and Telecommunications Tianjin University</h5>
+<!-- <h5 align="center">Dalian University of Technology &nbsp; Beijing University of Posts and Telecommunications &nbsp; Tianjin University</h5> -->
 
 <h3 align="center">CVPR 2025</h3>
+
 
 <h4 align="center">
     <a href="https://arxiv.org/abs/2412.08139">[Paper]</a> •
     <a href="http://peihuali.org/ImagineFSL">[Project]</a>
 </h4>
 
-<div align="center"><img src="imgs/overview.png" width="90%"></div>
+<div align="center"><img src="figures/overview.png" width="90%"></div>
 
 ## Introduction
 
@@ -172,9 +173,7 @@ We provide download links for the fine-tuned models (ViT-B/16) across 11 dataset
 - ImagineFSL: [https://](https://)
 - ImagineFSL$_\text{LoRA}$: [Coming soon.](http://)
 
-**Note that the results is slightly different to the results in paper due to randomness in traning.**
-
-**We recommend evaluated all methods and models across 11 datasets.**
+**Note**: Due to randomness, the results may slightly differ from those in the paper. We recommend evaluating all methods and models across 11 datasets to observe the average performance.
 
 ----
 
