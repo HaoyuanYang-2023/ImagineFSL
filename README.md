@@ -2,6 +2,7 @@
 
 <h3 align="center">Haoyuan Yang &nbsp;&nbsp; Xiaoou Li &nbsp;&nbsp; Jiaming Lv &nbsp;&nbsp; Xianjun Cheng &nbsp;&nbsp; Qilong Wang &nbsp;&nbsp; Peihua Li</h3>
 
+<h5 align="center">Dalian University of Technology &nbsp; Beijing University of Posts and Telecommunications Tianjin University</h5>
 
 <h3 align="center">CVPR 2025</h3>
 
