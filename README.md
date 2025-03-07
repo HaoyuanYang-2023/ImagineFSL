@@ -10,7 +10,7 @@
     <a href="http://peihuali.org/ImagineFSL">[Project]</a>
 </h4>
 
-<div align="center"><img src="imgs/overview.png" width="90%"></div>
+<div align="center"><img src="figures/overview.png" width="90%"></div>
 
 ## Introduction
 
