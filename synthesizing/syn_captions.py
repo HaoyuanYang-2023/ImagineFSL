@@ -21,28 +21,6 @@ def check_lost(json_path, total_captions):
     return lost_num if lost_num > 0 else None
 
 
-# def get_utils(path, category):
-
-#     with open('utils/lighting_conditions_viewpoints.json', 'r') as f:
-#         data = json.load(f)
-#     lighting_list = data['lighting_condition']
-#     image_quality = data["low_image_quality"]
-
-#     with open('utils/viewpoints.json', 'r') as v:
-#         viewpoints = json.load(v)[category]
-    
-#     background_dict = None
-#     bg_path = f"./backgrounds/{category}.json"
-#     if os.path.exists(bg_path):
-#         with open(bg_path, 'r') as f:
-#             background_dict = json.load(f)
-
-#     attribute_path = f"./attributes/{category}.json"
-#     with open(attribute_path, 'r') as f:
-#         attribute_dict = json.load(f)
-
-#     return attribute_dict, viewpoints, background_dict, lighting_list,  image_quality
-
 def get_utils(bg_path, attribute_path, category):
 
     with open('utils/lighting_conditions_viewpoints.json', 'r') as f:
@@ -165,12 +143,12 @@ def main(
     bg_path = f"./backgrounds/{category}.json"
     attribute_path = f"./attributes/{category}.json"
 
-    # generator = Llama.build(
-    #     ckpt_dir=ckpt_dir,
-    #     tokenizer_path=tokenizer_path,
-    #     max_seq_len=max_seq_len,
-    #     max_batch_size=max_batch_size,
-    # )
+    generator = Llama.build(
+        ckpt_dir=ckpt_dir,
+        tokenizer_path=tokenizer_path,
+        max_seq_len=max_seq_len,
+        max_batch_size=max_batch_size,
+    )
     generator=None
     # process saving dir
     new_prompt_filename = output_filename
@@ -215,26 +193,26 @@ def main(
                 format_args = generate_format_args(generated_mode, examples, chosen_idx, foreground, bg_path, attribute_path, category)
                 current_prompt = prompt_template.format(*format_args)
                 prompts.append(current_prompt)
-            print(prompts)
-            # results = generator.text_completion(
-            #     prompts,
-            #     max_gen_len=max_gen_len,
-            #     temperature=temperature,
-            #     top_p=top_p,
-            # )
 
-        #     for res_idx, result in enumerate(results):
-        #         generation = result['generation']
-        #         new_prompt = generation.split('\n')[0]
-        #         new_prompt = new_prompt.replace('\n', ' ')
-        #         new_prompt = new_prompt.strip()
-        #         new_prompts.append(new_prompt)
+            results = generator.text_completion(
+                prompts,
+                max_gen_len=max_gen_len,
+                temperature=temperature,
+                top_p=top_p,
+            )
 
-        # if '/' in foreground:
-        #     foreground = foreground.replace('/', '_')
-        # prompt_filename = new_prompt_filename + f'/{foreground}.txt'
-        # with open(prompt_filename, 'a') as f:
-        #     f.writelines([p.strip().replace('\n', ' ') + '\n' for p in new_prompts])
+            for res_idx, result in enumerate(results):
+                generation = result['generation']
+                new_prompt = generation.split('\n')[0]
+                new_prompt = new_prompt.replace('\n', ' ')
+                new_prompt = new_prompt.strip()
+                new_prompts.append(new_prompt)
+
+        if '/' in foreground:
+            foreground = foreground.replace('/', '_')
+        prompt_filename = new_prompt_filename + f'/{foreground}.txt'
+        with open(prompt_filename, 'a') as f:
+            f.writelines([p.strip().replace('\n', ' ') + '\n' for p in new_prompts])
 
 
 if __name__ == "__main__":
