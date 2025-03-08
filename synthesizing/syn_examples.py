@@ -5,8 +5,8 @@ import json
 import random
 import time
 import argparse
-from example_gpt_templates import context_templates, base_context_templates
-from classnames import CLASSNAMES
+from utils.example_gpt_templates import context_templates, base_context_templates
+from utils.classnames import CLASSNAMES
 
 parser = argparse.ArgumentParser(description='OpenAI ChatGPT API')
 parser.add_argument('--model', type=str, default='gpt-4o', help='model')

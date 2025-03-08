@@ -5,8 +5,8 @@ import time
 import argparse
 
 
-from attribute_gpt_templates import *
-from classnames import CLASSNAMES as labels
+from utils.attribute_gpt_templates import *
+from utils.classnames import CLASSNAMES as labels
 
 
 parser = argparse.ArgumentParser(description='OpenAI ChatGPT API')
