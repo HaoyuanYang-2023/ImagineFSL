@@ -106,12 +106,6 @@ python syn_examples.py \
 
 We use Llama 3 8B to synthesize text. The weight files of Llama 3 8B can be downloaded [`here`](https://huggingface.co/meta-llama/Meta-Llama-3-8B).
 
-Get into the Llama 3 directory:
-
-```
-cd synthesizing/llama_syn
-```
-
 Install additional dependencies required for Llama 3 inference:
 
 ```
@@ -125,7 +119,12 @@ tqdm==4.66.5
 Run the following command:
 
 ```
-Coming Soon ...
+LLAMA_FOLDER=YOUR_LLAMA_FOLDER
+
+torchrun --nproc_per_node 1 --master_port 12388 \
+    syn_captions.py --ckpt_dir ${LLAMA_FOLDER} --tokenizer_path ${LLAMA_FOLDER}/tokenizer.model \
+    --max_batch_size 16 --max_seq_len 400 --max_gen_len 100 \
+    --total_captions 300 --seed 0 --category DATASET_NAME --temperature 0.8
 ```
 
 <h3> Synthesize Images </h3>
