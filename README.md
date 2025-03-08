@@ -180,11 +180,11 @@ We provide download links for the fine-tuned models (ViT-B/16) across 11 dataset
 
 **Note: Due to randomness, the results may slightly differ from those in the paper. We recommend evaluating all methods and models across 11 datasets to observe the average performance.**
 
-----
+<!-- ---- -->
 
-### 4. Evaluation
+<!-- ### 4. Evaluation -->
 
-`Code for evalution only is coming soon...`
+<!-- `Code for evalution only is coming soon...` -->
 
 ## Acknowledgement
 
