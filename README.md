@@ -210,5 +210,5 @@ If this repo is helpful for your research, please consider citing the paper:
 If you have any questions or suggestions, please contact us:
 
 - Haoyuan Yang (yanghaoyuan@mail.dlut.edu.cn)
-- Xiaoou Li (xiaoouli@bupt.edu.cn)
-- Jiaming Lv (ljm_vlg@mail.dlut.edu.cn)
+<!-- - Xiaoou Li (xiaoouli@bupt.edu.cn)
+- Jiaming Lv (ljm_vlg@mail.dlut.edu.cn) -->
