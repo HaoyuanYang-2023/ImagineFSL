@@ -27,13 +27,13 @@ In this paper:
   
   The iBase dataset used for pretraining can be downloaded from 
   
-  [`Baidu Yun`](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) (code: 7fm5) | [`Google Drive`](https://)
+  [`Baidu Yun (TBD)`](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) (code: 7fm5) | [`Google Drive (TDB)`](https://)
 
 - **10 Downstream Datasets (Real Images)**:
 
   We provide download links for the 10 datasets used in our experiments (except ImageNet). 
   
-   [`Baidu Yun`](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) (code: 7fm5) | [`Google Drive`](https://)
+   [`Baidu Yun`](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) (code: 7fm5) | [`Google Drive (TBD)`](https://)
 
 
   *These datasets are identical to those provided by [`CoOp`](https://github.com/KaiyangZhou/CoOp/blob/main/DATASETS.md) but with standardized file organization for PyTorch compatibility*.
@@ -45,7 +45,7 @@ All our experiments are conducted on a PC with an Intel Core i9-13900K CPU and G
 ### 1. Clone this repo:
 
 ```
-git clone https://github.com/ImagineFSL/ImagineFSL.git
+git clone https://github.com/HaoyuanYang-2023/ImagineFSL.git
 cd ImagineFSL
 ```
 
@@ -161,7 +161,7 @@ sh run_ct.sh
 
 Set the configuration file in  xxx.py and dataset path in the xxx.py.
 
-**ImagineFSL$_\text{LoRA}$**:
+**ImagineFSL_LoRA**:
 
 ```
 sh run_ct_lora.sh
@@ -172,9 +172,9 @@ Set the configuration file in  xxx.py and dataset path in the xxx.py.
 We provide download links for the fine-tuned models (ViT-B/16) across 11 datasets:
 
 |Method|1-shot|16-shot|
-|-|-|-|
-|ImagineFSL| 76.1 [`link`]() | 86.4 [`link`]()|
-|ImagineFSL_LoRA|77.6 [`link`]() |87.6 [`link`]() |
+|:-|:-:|:-:|
+|ImagineFSL| 76.1 \| [`link`]() | 86.4 \| [`link`]()|
+|ImagineFSL_LoRA|77.6 \| [`link`]() |87.6 \| [`link`]() |
 |||
 
 
