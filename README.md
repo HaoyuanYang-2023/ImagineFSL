@@ -148,6 +148,10 @@ dinov2/config/train/clip_b16.yaml
 
 We provide download links for the pretrained models:
 
+- ViT-B/16: [`Baidu Yun`](https://pan.baidu.com/s/1i3txwvzpx9yJeGj8AFTZrw?pwd=app9) (code: app9)
+
+- ViT-L/14: [`Baidu Yun`](https://pan.baidu.com/s/1Ac8UqmtKnR9wFVhXeTjrbg?pwd=pp64) (code: pp64)
+   
 ----
 
 ### 3. Few-shot Fine-tuning
