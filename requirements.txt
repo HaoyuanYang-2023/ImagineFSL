@@ -12,3 +12,4 @@ fvcore==0.1.5.post20221221
 omegaconf
 torchmetrics==0.10.3
 iopath
+tensorboardX

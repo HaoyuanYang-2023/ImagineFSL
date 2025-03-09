@@ -113,7 +113,6 @@ fire==0.3.0
 fairscale==0.4.13
 tiktoken==0.7.0
 blobfile==0.3.0
-tqdm==4.66.5
 ```
 
 Run the following command:
@@ -155,11 +154,12 @@ We provide download links for the pretrained models:
 
 **ImagineFSL**:
 
+Set the pretrain model path in the following shell script and run it: 
 ```
-sh run_ct.sh
+sh run_imaginefsl.sh
 ```
 
-Set the configuration file in  xxx.py and dataset path in the xxx.py.
+You need to set the dataset path in the `dinov2/eval/ct_tuning_mixing.py` first.
 
 **ImagineFSL_LoRA**:
 
