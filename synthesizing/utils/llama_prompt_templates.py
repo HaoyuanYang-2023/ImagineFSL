@@ -1,5 +1,5 @@
 TEMPLATE_new = {
-    "BG": """You will generate an image caption for {} by considering the following factors: attributes, shooting angles/distances and background. The caption should be generated in such a way that, when used as a text prompt for stable diffusion, the generated images should be similar to real-photos photographed in everyday life. You will be given three examples as follows:
+    "BG": """Your task is to generate an image caption for a {}, by considering the following factors: attribute, viewpoint, and background. The caption should be suitable for use as a textual prompt for Stable Diffusion, ensuring that the generated image resembles a real-life photo. Use the three examples provided below to guide the generation of the caption:
     {}, {} and {} => {}
     
     {}, {} and {} => {}
@@ -8,8 +8,7 @@ TEMPLATE_new = {
     
     {}, {} and {} =>""",
     
-    "LC": """You will generate an image caption for a {} by considering the following factors: attributes, shooting angles/distances and lighting conditions. The caption should be generated in such a way that, when used as a text prompt for stable diffusion, the generated images should be similar to real-photos photographed in everyday life. You will be given three examples as follows:
-    
+    "LC": """Your task is to generate an image caption for a {}, by considering the following factors: attribute, viewpoint, and lighting conditions. The caption should be suitable for use as a textual prompt for Stable Diffusion, ensuring that the generated image resembles a real-life photo. Use the three examples provided below to guide the generation of the caption:
     {}, {} and {} => {}
     
     {}, {} and {} => {}
@@ -18,8 +17,7 @@ TEMPLATE_new = {
     
     {}, {} and {} =>""",
     
-    "CD": """You will generate an image caption for a {} by considering the following factors: attributes, shooting angles/distances and degradation causes resulting in deterioration of image quality. The caption should be generated in such a way that, when used as a text prompt for stable diffusion, the generated images should be similar to real-photos photographed in everyday life. You will be given three examples as follows:
-    
+    "CD": """Your task is to generate an image caption for a {}, by considering the following factors: attribute, viewpoint, and degradation causes resulting in deterioration of image quality. The caption should be suitable for use as a textual prompt for Stable Diffusion, ensuring that the generated image resembles a real-life photo. Use the three examples provided below to guide the generation of the caption:
     {}, {} and {} => {}
     
     {}, {} and {} => {}
@@ -28,8 +26,7 @@ TEMPLATE_new = {
     
     {}, {} and {} =>""",
     
-    "Base": """You will generate an image caption for {} by considering the following factors: attribute and shooting angles/distance. The caption should be generated in such a way that, when used as a text prompt for stable diffusion, the generated images should be similar to real-photos photographed in everyday life. You will be given three examples as follows:
-    
+    "Base": """Your task is to generate an image caption for a {}, by considering the following factors: attribute and viewpoint. The caption should be suitable for use as a textual prompt for Stable Diffusion, ensuring that the generated image resembles a real-life photo. Use the three examples provided below to guide the generation of the caption:
     {}, {} => {}
     
     {}, {} => {}

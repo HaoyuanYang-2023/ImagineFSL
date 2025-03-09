@@ -45,26 +45,8 @@ def get_utils(bg_path, attribute_path, category):
 def generate_format_args(generated_mode, examples,
                          chosen_idx, foreground, category, bg_path, attribute_path):
     format_args = []
-    all_datasets = {
-        'imagenet': 'an object',
-        'ucf101_frames': 'an action: ',
-        'flowers': 'a type of flower: ',
-        "food101": 'a type of food: ',
-        'cars': 'a car: ',
-        'pets': 'a type of pet: ',
-        'aircraft': 'an aircraft: ',
-        'dtd': ['the texture: ',
-                'an object with the texture: ',
-                'an object with the pattern: '],
-        'sun397': 'a scene: ',
-        'caltech101': 'an object: ',
-        'eurosat': 'a type of satellite land cover: '
-    }
-    description = all_datasets[category]
-    if isinstance(description, list):
-        description = random.choice(description)
 
-    format_args.append(description + '"' + foreground + '"')
+    format_args.append('"' + foreground + '"')
 
     attribute_dict, viewpoints, background_dict, lighting_list,  image_quality = get_utils(bg_path, attribute_path, category)
     
@@ -165,7 +147,7 @@ def main(
         print(f"Generating NO.{i} {foreground}:")
         foreground = foreground.strip()
         prompt_filename = new_prompt_filename + f'/{foreground_ori}.txt'
-        lost_num = check_lost(prompt_filename, foreground, total_captions)
+        lost_num = check_lost(prompt_filename, total_captions)
         print(lost_num)
         if lost_num:
             num_batches = math.ceil(lost_num / max_batch_size)
@@ -190,7 +172,7 @@ def main(
                 chosen_idx = random.sample(range(num_example), 3)
                 prompt_template = TEMPLATE[generated_mode]
 
-                format_args = generate_format_args(generated_mode, examples, chosen_idx, foreground, bg_path, attribute_path, category)
+                format_args = generate_format_args(generated_mode, examples, chosen_idx, foreground, category, bg_path, attribute_path)
                 current_prompt = prompt_template.format(*format_args)
                 prompts.append(current_prompt)
 

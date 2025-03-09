@@ -104,7 +104,7 @@ python syn_examples.py \
 
 <h3> Synthesize Captions </h3>
 
-We use Llama 3 8B to synthesize text. The weight files of Llama 3 8B can be downloaded [`here`](https://huggingface.co/meta-llama/Meta-Llama-3-8B).
+We use Llama 3 8B to synthesize text. The weight files of Llama 3 8B can be downloaded [`here`](https://huggingface.co/meta-llama/Meta-Llama-3-8B/tree/main/original).
 
 Install additional dependencies required for Llama 3 inference:
 
