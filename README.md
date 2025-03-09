@@ -27,7 +27,7 @@ In this paper:
   
   The iBase dataset used for pretraining can be downloaded from 
   
-  [`Baidu Yun (TBD)`](https://pan.baidu.com/s/1-a4oFKiPFdD_QRGJqAN9jA?pwd=r9ur) (code: r9ur)
+  [`Baidu Yun`](https://pan.baidu.com/s/1-a4oFKiPFdD_QRGJqAN9jA?pwd=r9ur) (code: r9ur)
 
 - **10 Downstream Datasets (Real Images)**:
 
