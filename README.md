@@ -27,13 +27,13 @@ In this paper:
   
   The iBase dataset used for pretraining can be downloaded from 
   
-  [`Baidu Yun (TBD)`](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) (code: 7fm5) | [`Google Drive (TDB)`](https://)
+  [`Baidu Yun (TBD)`](https://pan.baidu.com/s/1-a4oFKiPFdD_QRGJqAN9jA?pwd=r9ur) (code: r9ur)
 
 - **10 Downstream Datasets (Real Images)**:
 
   We provide download links for the 10 datasets used in our experiments (except ImageNet). 
   
-   [`Baidu Yun`](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) (code: 7fm5) | [`Google Drive (TBD)`](https://)
+   [`Baidu Yun`](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) (code: 7fm5)
 
 
   *These datasets are identical to those provided by [`CoOp`](https://github.com/KaiyangZhou/CoOp/blob/main/DATASETS.md) but with standardized file organization for PyTorch compatibility*.
