@@ -177,8 +177,8 @@ We provide download links for the fine-tuned models (ViT-B/16) across 11 dataset
 
 |Method|1-shot|16-shot|
 |:-|:-:|:-:|
-|ImagineFSL| 76.1 \| [`link`]() | 86.4 \| [`link`]()|
-|ImagineFSL_LoRA|77.6 \| [`link`]() |87.6 \| [`link`]() |
+|ImagineFSL| 76.1 \| [`link`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq)(code: r5eq)| 86.4 \| [`link`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f)(code: 5i5f) |
+|ImagineFSL_LoRA|77.6 \| [`coming soon`]() | 87.6 \| [`coming soon`]()|
 |||
 
 
