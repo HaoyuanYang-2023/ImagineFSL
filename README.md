@@ -11,7 +11,7 @@
     <a href="http://peihuali.org/ImagineFSL">[Project]</a>
 </h3>
 
-<div align="center"><img src="imgs/overview.png" width="90%"></div>
+<div align="center"><img src="imgs/overview.gif" width="90%"></div>
 
 ## Introduction
 
@@ -167,17 +167,18 @@ You need to set the dataset path in the `dinov2/eval/ct_tuning_mixing.py` first.
 
 **ImagineFSL_LoRA**:
 
-```
+<!-- ```
 sh run_ct_lora.sh
 ```
 
-Set the configuration file in  xxx.py and dataset path in the xxx.py.
+Set the configuration file in  xxx.py and dataset path in the xxx.py. -->
+The code for ImagienFSL_LoRA is coming soon.
 
 We provide download links for the fine-tuned models (ViT-B/16) across 11 datasets:
 
 |Method|1-shot|16-shot|
 |:-|:-:|:-:|
-|ImagineFSL| 76.1 \| [`link`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq)(code: r5eq)| 86.4 \| [`link`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f)(code: 5i5f) |
+|ImagineFSL| 76.1 \| [`Baidu Yun`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq)(code: r5eq)| 86.4 \| [`Baidu Yun`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f)(code: 5i5f) |
 |ImagineFSL_LoRA|77.6 \| [`coming soon`]() | 87.6 \| [`coming soon`]()|
 |||
 
