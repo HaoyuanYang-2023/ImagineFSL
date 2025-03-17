@@ -162,8 +162,14 @@ Set the pretrain model path in the following shell script and run it:
 ```
 sh run_imaginefsl.sh
 ```
-
 You need to set the dataset path in the `dinov2/eval/ct_tuning_mixing.py` first.
+
+For evaluation, run the following command:
+
+```
+sh run_imaginefsl_eval.sh
+```
+You need to specify the path to vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight and temperature optimized in the previous step.
 
 **ImagineFSL_LoRA**:
 

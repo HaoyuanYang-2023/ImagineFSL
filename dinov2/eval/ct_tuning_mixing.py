@@ -94,11 +94,13 @@ def get_args_parser(
     parser.add_argument(
         '--weight_v',
         type=float,
+        default=1.0,
         help="Parameter for visual loss weight, visual-text weight would be (1 - weight_v)",
     )
     parser.add_argument(
         "--epochs",
         type=int,
+        default=10,
         help="Number of training epochs",
     )
     parser.add_argument(
@@ -126,38 +128,31 @@ def get_args_parser(
     parser.add_argument(
         "--phase",
         type=str,
-        default="real"
+        default="syn"
     )
     parser.add_argument(
         "--template-type",
         dest="template_type",
-        default=None,
+        default="simple+cafo",
         type=str,
-        help="Text templates type, choose from 'cafo, simple' or default(base)."
-             "base: OPENAI_IMAGENET_TEMPLATES, simple: SIMPLE_IMAGENET_TEMPLATES, "
-             "cupl+base: cupl_prompts and OPENAI_IMAGENET_TEMPLATES, cupl+simple: cupl_prompts and SIMPLE_IMAGENET_TEMPLATES",
     )
     parser.add_argument(
         '--range-params',
         nargs="+",
+        default=[0.0, 1.02, 0.02],
         type=float,
         help="Parameters for weight range, should be three floats: start, end, and step.",
     )
     parser.add_argument(
         "--batch-size",
         type=int,
+        default=64,
         help="Batch Size (per GPU)",
     )
     parser.add_argument(
         "--num-workers",
         type=int,
         help="Number de Workers",
-    )
-    parser.add_argument(
-        "--use_cleaned_data",
-        type=bool,
-        help="Whether using denoised data by CLIP",
-        default=False
     )
     parser.add_argument(
         "--epoch-length",
@@ -178,6 +173,7 @@ def get_args_parser(
         "--learning-rates",
         nargs="+",
         type=float,
+        default=[1e-4, 1e-4, 1e-4, 1e-4],
         help="Learning rates to grid search.",
     )
     parser.add_argument(
@@ -209,6 +205,23 @@ def get_args_parser(
         help="Number of workers for data loading",
     )
     
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        help="Temperature for clip logits",
+    )
+    parser.add_argument(
+        "--fuse_weight",
+        type=float,
+        help="Weight for fusion",
+    )
+    parser.add_argument(
+        "--eval_only",
+        type=bool,
+        default=False,
+        help="Whether to only evaluate",
+    )
+
     parser.set_defaults(
         batch_size=256,
         num_workers=16,
@@ -433,114 +446,121 @@ def fine_tune(
     category,
     val_class_mapping=None,
 ):
-    writer = SummaryWriter(f'{args.output_dir}/runs/{category}')
+    iteration = 0
+    if not args.eval_only:
+        writer = SummaryWriter(f'{args.output_dir}/runs/{category}')
 
-    feature_model.train()
-    linear_classifiers.train()
-    classifier_head.train()
-    
-    checkpointer_adapter = Checkpointer(feature_model, output_dir, optimizer=optimizer, scheduler=scheduler)
-    checkpointer_linear = Checkpointer(linear_classifiers, output_dir, optimizer=optimizer, scheduler=scheduler)
-    start_iter = 0
-    periodic_checkpointer_adapter = PeriodicCheckpointer(checkpointer_adapter, checkpoint_period, max_iter=max_iter)
-    periodic_checkpointer_linear = PeriodicCheckpointer(checkpointer_linear, checkpoint_period, max_iter=max_iter)
-    iteration = start_iter
-    logger.info("Starting training from iteration {}".format(start_iter))
-    metric_logger = MetricLogger(delimiter="  ")
-    header = "Training"
-    scaler = torch.cuda.amp.GradScaler()
-
-    pre_data_loader_time = time.time()
-    data_loader_time = 0
-    train_time = 0
-    
-    for real_data, syn_data in metric_logger.log_every(
-        train_data_loader,
-        100,
-        header,
-        max_iter,
-        start_iter,
-    ):
-
-        post_data_loader_time = time.time()
-        data_loader_time += post_data_loader_time - pre_data_loader_time
-        print(
-            f"Time to load data: {(post_data_loader_time - pre_data_loader_time) / 60} min, total load time: {data_loader_time / 60} min")
+        feature_model.train()
+        linear_classifiers.train()
+        classifier_head.train()
         
-
-        real_x, real_y = real_data
-        syn_x, syn_y = syn_data
-        real_x = real_x.cuda(non_blocking=True)
-        real_y = real_y.cuda(non_blocking=True)
-        syn_x = syn_x.cuda(non_blocking=True)
-        syn_y = syn_y.cuda(non_blocking=True)
-
-        print(real_x.shape, real_y.shape, syn_x.shape, syn_y.shape)
-
-
-        with torch.cuda.amp.autocast(enabled=True):
-            with torch.no_grad():
-                real_features = clip_model(real_x)
-            real_clip_logit = classifier_head(real_features) * torch.exp(temperature)
-            real_features = feature_model(real_features)
-            real_outputs = linear_classifiers(real_features)
-
-            with torch.no_grad():
-                syn_features = clip_model(syn_x)
-            syn_clip_logit = classifier_head(syn_features) * torch.exp(temperature)
-            syn_features = feature_model(syn_features)
-            syn_outputs = linear_classifiers(syn_features)
-
-
-        real_visual_loss = nn.CrossEntropyLoss()(real_outputs, real_y)
-        real_clip_loss = nn.CrossEntropyLoss()(real_clip_logit[:, 0, :], real_y)
-        real_loss = real_visual_loss + args.weight_v * real_clip_loss
-
-        syn_visual_loss = nn.CrossEntropyLoss()(syn_outputs, syn_y)
-        syn_clip_loss = nn.CrossEntropyLoss()(syn_clip_logit[:, 0, :], syn_y)
-        syn_loss = syn_visual_loss + args.weight_v * syn_clip_loss
-
-        loss = 0.8 * real_loss + 0.2 * syn_loss
-
-        post_train_time = time.time()
-        train_time += post_train_time - post_data_loader_time
-        print(
-            f"Time to train an epoch: {(post_train_time - post_data_loader_time) / 60} min, total train time: {train_time / 60} min")
-
-        writer.add_scalars('Loss',
-                           {
-                               'Loss/visual': real_visual_loss,
-                               'Loss/fuse': real_loss,
-                               'Loss/text': real_clip_loss,
-                               'Loss/syn_visual': syn_visual_loss,
-                               'Loss/syn_fuse': syn_loss,
-                               'Loss/syn_text': syn_clip_loss,
-                               'Loss/real_syn_text': loss,
-                               }, iteration)
-
-        # compute the gradients
-        optimizer.zero_grad()
-        scaler.scale(loss).backward()
-        scaler.step(optimizer)
-        scaler.update()
-
-        # step
-        scheduler.step()
-
-        # log
-        if iteration % 10 == 0:
-            metric_logger.update(loss=loss.item())
-            metric_logger.update(lr=optimizer.param_groups[0]["lr"])
-        
-        periodic_checkpointer_adapter.step(iteration)
-        periodic_checkpointer_linear.step(iteration)
-        iteration = iteration + 1
+        best_acc = 0.0
+        checkpointer_adapter = Checkpointer(feature_model, output_dir, optimizer=optimizer, scheduler=scheduler)
+        checkpointer_linear = Checkpointer(linear_classifiers, output_dir, optimizer=optimizer, scheduler=scheduler)
+        start_iter = 0
+        periodic_checkpointer_adapter = PeriodicCheckpointer(checkpointer_adapter, checkpoint_period, max_iter=max_iter)
+        periodic_checkpointer_linear = PeriodicCheckpointer(checkpointer_linear, checkpoint_period, max_iter=max_iter)
+        iteration = start_iter
+        logger.info("Starting training from iteration {}".format(start_iter))
+        metric_logger = MetricLogger(delimiter="  ")
+        header = "Training"
+        scaler = torch.cuda.amp.GradScaler()
 
         pre_data_loader_time = time.time()
+        data_loader_time = 0
+        train_time = 0
+        
+        for real_data, syn_data in metric_logger.log_every(
+            train_data_loader,
+            100,
+            header,
+            max_iter,
+            start_iter,
+        ):
+
+            post_data_loader_time = time.time()
+            data_loader_time += post_data_loader_time - pre_data_loader_time
+            print(
+                f"Time to load data: {(post_data_loader_time - pre_data_loader_time) / 60} min, total load time: {data_loader_time / 60} min")
+            
+
+            real_x, real_y = real_data
+            syn_x, syn_y = syn_data
+            real_x = real_x.cuda(non_blocking=True)
+            real_y = real_y.cuda(non_blocking=True)
+            syn_x = syn_x.cuda(non_blocking=True)
+            syn_y = syn_y.cuda(non_blocking=True)
+
+            print(real_x.shape, real_y.shape, syn_x.shape, syn_y.shape)
 
 
-    print(f"Train time: {train_time / 60} min; load data: {data_loader_time / 60} min")
+            with torch.cuda.amp.autocast(enabled=True):
+                with torch.no_grad():
+                    real_features = clip_model(real_x)
+                real_clip_logit = classifier_head(real_features) * torch.exp(temperature)
+                real_features = feature_model(real_features)
+                real_outputs = linear_classifiers(real_features)
 
+                with torch.no_grad():
+                    syn_features = clip_model(syn_x)
+                syn_clip_logit = classifier_head(syn_features) * torch.exp(temperature)
+                syn_features = feature_model(syn_features)
+                syn_outputs = linear_classifiers(syn_features)
+
+
+            real_visual_loss = nn.CrossEntropyLoss()(real_outputs, real_y)
+            real_clip_loss = nn.CrossEntropyLoss()(real_clip_logit[:, 0, :], real_y)
+            real_loss = real_visual_loss + args.weight_v * real_clip_loss
+
+            syn_visual_loss = nn.CrossEntropyLoss()(syn_outputs, syn_y)
+            syn_clip_loss = nn.CrossEntropyLoss()(syn_clip_logit[:, 0, :], syn_y)
+            syn_loss = syn_visual_loss + args.weight_v * syn_clip_loss
+
+            loss = 0.8 * real_loss + 0.2 * syn_loss
+
+            post_train_time = time.time()
+            train_time += post_train_time - post_data_loader_time
+            print(
+                f"Time to train an epoch: {(post_train_time - post_data_loader_time) / 60} min, total train time: {train_time / 60} min")
+
+            writer.add_scalars('Loss',
+                            {
+                                'Loss/visual': real_visual_loss,
+                                'Loss/fuse': real_loss,
+                                'Loss/text': real_clip_loss,
+                                'Loss/syn_visual': syn_visual_loss,
+                                'Loss/syn_fuse': syn_loss,
+                                'Loss/syn_text': syn_clip_loss,
+                                'Loss/real_syn_text': loss,
+                                }, iteration)
+
+            # compute the gradients
+            optimizer.zero_grad()
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+
+            # step
+            scheduler.step()
+
+            # log
+            if iteration % 10 == 0:
+                metric_logger.update(loss=loss.item())
+                metric_logger.update(lr=optimizer.param_groups[0]["lr"])
+            
+            periodic_checkpointer_adapter.step(iteration)
+            periodic_checkpointer_linear.step(iteration)
+            iteration = iteration + 1
+
+            pre_data_loader_time = time.time()
+
+
+        print(f"Train time: {train_time / 60} min; load data: {data_loader_time / 60} min")
+    
+    if args.eval_only:
+        temperature = torch.tensor(args.temperature, device='cuda')
+        fuse_weight = torch.tensor(args.fuse_weight, device='cuda')
+        
     feature_model.eval()
     linear_classifiers.eval()
     test_acc, clip_acc, visual_acc = evaluate_classifiers(
@@ -551,16 +571,23 @@ def fine_tune(
                 temperature=temperature,
                 linear_classifiers=remove_ddp_wrapper(linear_classifiers),
                 data_loader=val_data_loader,
+                metrics_file_path=metrics_file_path,
+                prefixstring=f"ITER: {iteration}",
                 metric_type=metric_type,
                 training_num_classes=training_num_classes,
+                iteration=iteration,
                 class_mapping=val_class_mapping,
+                fuse_weight=fuse_weight,
             )
     print(f"FINAL_ACCURACY:{test_acc},{clip_acc},{visual_acc},{temperature.item()}")
     print(f"Temperature: {temperature}")
-    torch.save(remove_ddp_wrapper(feature_model).state_dict(), os.path.join(output_dir, f"{category}_{args.num_shots}shot_adapter.pth"))
-    torch.save(remove_ddp_wrapper(linear_classifiers).state_dict(), os.path.join(output_dir, f"{category}_{args.num_shots}shot_linear.pth"))
-    torch.save(remove_ddp_wrapper(classifier_head).state_dict(),
-               os.path.join(output_dir, f"{category}_{args.num_shots}shot_text.pth"))
+
+    if not args.eval_only:
+        torch.save(remove_ddp_wrapper(feature_model).state_dict(), os.path.join(output_dir, f"{category}_{args.num_shots}shot_adapter.pth"))
+        torch.save(remove_ddp_wrapper(linear_classifiers).state_dict(), os.path.join(output_dir, f"{category}_{args.num_shots}shot_linear.pth"))
+        torch.save(remove_ddp_wrapper(classifier_head).state_dict(),
+                os.path.join(output_dir, f"{category}_{args.num_shots}shot_text.pth"))
+
 
 
 def make_eval_data_loader(val_dataset, batch_size, num_workers, metric_type):
