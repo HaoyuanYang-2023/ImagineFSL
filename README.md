@@ -7,7 +7,7 @@
 <h3 align="center">CVPR 2025</h3>
 
 <h3 align="center">
-    <a href="https://arxiv.org/abs/2412.08139">[Paper]</a> •
+    <a href="https://cvpr.thecvf.com/virtual/2025/poster/32717">[Paper]</a> •
     <a href="http://peihuali.org/ImagineFSL">[Project]</a>
 </h3>
 
