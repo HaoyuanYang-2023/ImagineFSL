@@ -148,9 +148,9 @@ dinov2/config/train/clip_b16.yaml
 
 We provide download links for the pretrained models:
 
-- ViT-B/16: [`Baidu Yun`](https://pan.baidu.com/s/1i3txwvzpx9yJeGj8AFTZrw?pwd=app9) (code: app9) | [`Google Drive`](https://drive.google.com/file/d/1-5s6-RpLLTzbrZXbHyfPWSuLqQ3Qq4WG/view?usp=drive_link)
+- ViT-B/16: [`Baidu Yun`](https://pan.baidu.com/s/1i3txwvzpx9yJeGj8AFTZrw?pwd=app9) | [`Google Drive`](https://drive.google.com/file/d/1-5s6-RpLLTzbrZXbHyfPWSuLqQ3Qq4WG/view?usp=drive_link)
 
-- ViT-L/14: [`Baidu Yun`](https://pan.baidu.com/s/1Ac8UqmtKnR9wFVhXeTjrbg?pwd=pp64) (code: pp64) | [`Google Drive`](https://drive.google.com/file/d/1-5Zi1BrIPQW_iCwVvJ7wXIS1OlfWjShT/view?usp=drive_link)
+- ViT-L/14: [`Baidu Yun`](https://pan.baidu.com/s/1Ac8UqmtKnR9wFVhXeTjrbg?pwd=pp64) | [`Google Drive`](https://drive.google.com/file/d/1-5Zi1BrIPQW_iCwVvJ7wXIS1OlfWjShT/view?usp=drive_link)
    
 ----
 
@@ -184,7 +184,7 @@ We provide download links for the fine-tuned models (ViT-B/16) across 11 dataset
 
 |Method|1-shot|16-shot|
 |:-|:-:|:-:|
-|ImagineFSL| 76.1 \| [`Baidu Yun`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq)(code: r5eq) \| [`Google Drive`](https://drive.google.com/drive/folders/1-6-kHsgYmXJAwbBn0HV4A2nYkd2bBgva?usp=drive_link)| 86.4 \| [`Baidu Yun`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f)(code: 5i5f) \| [ `Google Drive`](https://drive.google.com/drive/folders/1-5MMNE69OQKCcAMqwCpVeX0hyfn7kt6W?usp=drive_link) |
+|ImagineFSL| 76.1 \| [`Baidu Yun`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq) \| [`Google Drive`](https://drive.google.com/drive/folders/1-6-kHsgYmXJAwbBn0HV4A2nYkd2bBgva?usp=drive_link)| 86.4 \| [`Baidu Yun`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f) \| [ `Google Drive`](https://drive.google.com/drive/folders/1-5MMNE69OQKCcAMqwCpVeX0hyfn7kt6W?usp=drive_link) |
 |ImagineFSL_LoRA|77.6 \| [`coming soon`]() | 87.6 \| [`coming soon`]()|
 |||
 
