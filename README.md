@@ -180,7 +180,7 @@ sh run_ct_lora.sh
 Set the configuration file in  xxx.py and dataset path in the xxx.py. -->
 The code for ImagienFSL_LoRA is coming soon.
 
-We provide download links for the fine-tuned models (ViT-B/16) across 11 datasets:
+We provide download links for fine-tuned models on 1-/16-shot settings (ViT-B/16) across 11 datasets:
 
 |Method|1-shot|16-shot|
 |:-|:-:|:-:|
@@ -188,6 +188,7 @@ We provide download links for the fine-tuned models (ViT-B/16) across 11 dataset
 |ImagineFSL_LoRA|77.6 \| [`coming soon`]() | 87.6 \| [`coming soon`]()|
 |||
 
+Detailed results of All K-shot settings can be found in [`here`](https://github.com/HaoyuanYang-2023/ImagineFSL/tree/main/results).
 
 **Note: Due to randomness, the results may slightly differ from those in the paper. We recommend evaluating all methods and models across 11 datasets to observe the average performance.**
 
