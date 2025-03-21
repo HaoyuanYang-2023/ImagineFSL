@@ -13,6 +13,10 @@ parser.add_argument('--model', type=str, default='gpt-4o', help='model')
 parser.add_argument('--dataset', type=str, default='flowers', help='Dataset')
 parser.add_argument('--api_key', type=str, default='', help='Your API Key')
 args = parser.parse_args()
+# IF NEED PROXY
+os.environ['HTTP_PROXY'] = "127.0.0.1:1080"
+os.environ['HTTPS_PROXY'] = "127.0.0.1:1080"
+
 
 def load_gpt(api_key):
     os.environ["OPENAI_API_KEY"] = api_key
@@ -88,13 +92,13 @@ def fill_blanks(type, cls, bg_path, attribute_path, weighted=False):
     return format_list, save_dict
 
 
-def get_prompts(generate_mode, cat_description, cls, path, bg_path, attribute_path, weighted=True):
+def get_prompts(generate_mode, cls, path, bg_path, attribute_path, weighted=True):
     format_list, save_dict = fill_blanks(generate_mode, cls, bg_path, attribute_path, weighted)
     if format_list == "Not in attribute_dict":
         return "Not in attribute_dict", None
     if generate_mode == 'Base':
         template = base_context_templates
-        prompt = template.format(cat_description + cls, cls, cls, cls, *format_list, cls)
+        prompt = template.format(cls, cls, cls, cls, *format_list, cls)
 
     else:
         template = context_templates
@@ -104,9 +108,8 @@ def get_prompts(generate_mode, cat_description, cls, path, bg_path, attribute_pa
             "BG": f'background where the {cls} is photographed',
             "CD": "degradation causes resulting in deterioration of image quality"
         }
-        # prompt = template.format(cls, cls, description[generate_mode], cls, attribute, viewpoint_info, specified_info, cls)
-        prompt = template.format(cat_description + cls, cls, description[generate_mode], cls, *format_list,
-                                 cls)
+
+        prompt = template.format(cls, cls, description[generate_mode], cls, *format_list, cls)
 
     return prompt, save_dict
 
@@ -114,8 +117,7 @@ def get_prompts(generate_mode, cat_description, cls, path, bg_path, attribute_pa
 def convert_unicode(unicode_str):
     return unicode_str.encode().decode('unicode_escape')
 
-def main(category, description, prompt_type, path, bg_path, attribute_path, save_path,
-         api_key):
+def main(category, prompt_type, path, bg_path, attribute_path, save_path, api_key):
     client = load_gpt(api_key)
 
     classes = CLASSNAMES[category]
@@ -134,7 +136,7 @@ def main(category, description, prompt_type, path, bg_path, attribute_path, save
 
             while len(example_dict[cls]) < 10:
                 time.sleep(0.1)
-                prompt, save_dict = get_prompts(prompt_type, description, cls, path, bg_path, attribute_path)
+                prompt, save_dict = get_prompts(prompt_type, cls, path, bg_path, attribute_path)
 
                 messages = [
                     {"role": "user", "content": prompt}
@@ -142,14 +144,13 @@ def main(category, description, prompt_type, path, bg_path, attribute_path, save
                 print(prompt)
                 try:
                     response = client.chat.completions.create(
-                        model=llm_model,  # 模型名称
-                        max_tokens=100,  # 最大输出token的数量
-                        temperature=0.8,  # 温度
+                        model=llm_model,  
+                        max_tokens=100,  
+                        temperature=0.8,  
                         # Lower values for temperature result in more consistent outputs (e.g. 0.2), while higher values generate more diverse and creative results (e.g. 1.0). Select a temperature value based on the desired trade-off between coherence and creativity for your specific application. The temperature can range is from 0 to 2. Reference: https://platform.openai.com/docs/guides/text-generation
-                        messages=messages,  # 输入的文本
+                        messages=messages,  
                     )
 
-                    # 提取并解析GPT返回的响应
                     content = response.choices[0].message.content
                     if "\"" in content:
                         content = content.replace("\"", "")
@@ -173,22 +174,6 @@ def main(category, description, prompt_type, path, bg_path, attribute_path, save
 
 if __name__ == '__main__':
 
-    datasets = {
-        'flowers': 'a type of flower: ',
-        "food101": 'a type of food: ',
-        'cars': 'a car: ',
-        'pets': 'a type of pet: ',
-        'aircraft': 'an aircraft: ',
-        'dtd': ['the texture: ',
-                'an object with the texture: ',
-                'an object with the pattern: '],
-        'sun397': 'a scene: ',
-        'caltech101': 'an object: ',
-        'eurosat': 'a type of satellite land cover: ',
-        'ucf101_frames': 'an action: ',
-        'imagenet': 'an object: '
-    }
-    description = datasets[args.dataset]
     category = args.dataset
 
 
@@ -198,14 +183,9 @@ if __name__ == '__main__':
         generated_modes = ['Base', 'LC', 'CD']
     else:
         generated_modes = ['Base','BG', 'LC', 'CD']
-    
-    # generated_modes = ['LC','CD']
-    if isinstance(description, list):
-        description = random.choice(description)
 
     for generated_mode in generated_modes:
 
-        # 读取json文件
         lighting_path = "lighting_conditions.json"
         bg_path = f"./backgrounds/{category}.json"
         attribute_path = f"./attributes/{category}.json"
@@ -217,6 +197,6 @@ if __name__ == '__main__':
         llm_model = args.model
         api_key = args.api_key
 
-        main(category, description, generated_mode, lighting_path, bg_path, attribute_path, save_path, api_key)
+        main(category, generated_mode, lighting_path, bg_path, attribute_path, save_path, api_key)
 
 

@@ -55,10 +55,10 @@ def get_attribute(dataset, classes, save_path):
                 cls_def = cls
                 messages = get_prompt(cls_def)
                 response = client.chat.completions.create(
-                    model=llm_model,  # 模型名称
-                    temperature=0.8,  # 温度
+                    model=llm_model,  
+                    temperature=0.8,  
                     # Lower values for temperature result in more consistent outputs (e.g. 0.2), while higher values generate more diverse and creative results (e.g. 1.0). Select a temperature value based on the desired trade-off between coherence and creativity for your specific application. The temperature can range is from 0 to 2. Reference: https://platform.openai.com/docs/guides/text-generation
-                    messages=messages,  # 输入的文本
+                    messages=messages, 
                 )
 
                 # If the response is not in python code block, continue to get the response
