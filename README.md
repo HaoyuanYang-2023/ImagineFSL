@@ -8,7 +8,7 @@
 
 <h3 align="center">
     <a href="https://cvpr.thecvf.com/virtual/2025/poster/32717">[Paper]</a> •
-    <a href="http://peihuali.org/ImagineFSL">[Project Coming Soon ...]</a>
+    <a href="http://peihuali.org/ImagineFSL">[Project]</a>
 </h3>
 
 <div align="center"><img src="imgs/overview.gif" width="80%"></div>
