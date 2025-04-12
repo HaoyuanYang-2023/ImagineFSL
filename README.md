@@ -4,7 +4,7 @@
 
 <!-- <h5 align="center">Dalian University of Technology &nbsp; Beijing University of Posts and Telecommunications &nbsp; Tianjin University</h5> -->
 
-<h3 align="center">CVPR 2025</h3>
+<h3 align="center">CVPR 2025 (Highlight)</h3>
 
 <h3 align="center">
     <a href="https://cvpr.thecvf.com/virtual/2025/poster/32717">[Paper]</a> •
