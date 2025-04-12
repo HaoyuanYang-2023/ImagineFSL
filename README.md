@@ -11,7 +11,7 @@
     <a href="http://peihuali.org/ImagineFSL">[Project Coming Soon ...]</a>
 </h3>
 
-<div align="center"><img src="imgs/overview.gif" width="60%"></div>
+<div align="center"><img src="imgs/overview.gif" width="80%"></div>
 
 ## Introduction
 
