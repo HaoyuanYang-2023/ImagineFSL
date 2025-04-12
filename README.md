@@ -210,7 +210,7 @@ If this repo is helpful for your research, please consider citing the paper:
 
 ```BibTeX
 @InProceedings{ImagineFSL_CVPR25,
-    author    = {Yang, Haoyuan and Li, Xiaoou and Lv, Jiaming and Cheng, Xianjun and Wang, Qilong and Li, Peihua},
+    author    = {Haoyuan, Yang and Xiaoou, Li and Jiaming, Lv and Xianjun, Cheng and Qilong, Wang and Peihua, Li},
     title     = {ImagineFSL: Self-Supervised Pretraining Matters on Imagined Base Set for VLM-based Few-shot Learning},
     booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
     year      = {2025},
