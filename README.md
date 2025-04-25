@@ -6,10 +6,10 @@
 
 <h3 align="center">CVPR 2025 (Highlight)</h3>
 
-<h3 align="center">
+<!--h3 align="center">
     <a href="https://cvpr.thecvf.com/virtual/2025/poster/32717">[Paper]</a> •
     <a href="http://peihuali.org/ImagineFSL">[Project]</a>
-</h3>
+</h3-->
 
 <div align="center"><img src="imgs/overview.gif" width="80%"></div>
 
