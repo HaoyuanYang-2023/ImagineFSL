@@ -174,19 +174,25 @@ You need to specify the path to vision classifier, adapter, text classifier and 
 
 **ImagineFSL_LoRA**:
 
-<!-- ```
-sh run_ct_lora.sh
-```
+<!-- The code for ImagienFSL_LoRA is coming soon. -->
 
-Set the configuration file in  xxx.py and dataset path in the xxx.py. -->
-The code for ImagienFSL_LoRA is coming soon.
+Set the pretrain model path in the following shell script and run it: 
+```
+sh run_imaginefsl_lora.sh
+```
+For evaluation, run the following command:
+
+```
+sh run_imaginefsl_lora_eval.sh
+```
+You need to specify the path to vision model, vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight.
 
 We provide download links for fine-tuned models on 1-/16-shot settings (ViT-B/16) across 11 datasets:
 
 |Method|1-shot|16-shot|
 |:-|:-:|:-:|
 |ImagineFSL| 76.1 \| [`Baidu Yun`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq) \| [`Google Drive`](https://drive.google.com/drive/folders/1-6-kHsgYmXJAwbBn0HV4A2nYkd2bBgva?usp=drive_link)| 86.4 \| [`Baidu Yun`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f) \| [ `Google Drive`](https://drive.google.com/drive/folders/1-5MMNE69OQKCcAMqwCpVeX0hyfn7kt6W?usp=drive_link) |
-|ImagineFSL_LoRA|77.6 \| [`coming soon`]() | 87.6 \| [`coming soon`]()|
+|ImagineFSL_LoRA|77.6 \| [`Baidu Yun`](https://pan.baidu.com/s/11P61q63LVbxxiX3ZsORpVA?pwd=a9md) \| [`Google Drive`](https://drive.google.com/drive/folders/10I_kpcFId7JQgByAgKasMeWsm7GaYq95?usp=sharing) | 87.6 \| [`coming soon`]()|
 |||
 
 Detailed results of All K-shot settings can be found in [`here`](https://github.com/HaoyuanYang-2023/ImagineFSL/tree/main/results).
