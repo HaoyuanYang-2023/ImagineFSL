@@ -203,7 +203,7 @@ Detailed results of All K-shot settings can be found in [`here`](https://github.
 
 ## Acknowledgement
 
-- Thanks for the authors of CoOp (Dataset), DINOv2 (Pretraining), DISEF (Fine-tuning), SynCLR (Synthesizing Captions).
+- Thanks for the authors of CoOp (Dataset), DINOv2 (Pretraining), DISEF (Fine-tuning), SynCLR (Synthesizing captions).
 - Thanks also go to authors of other papers who make their code publicly available.
 
 ## Citation
