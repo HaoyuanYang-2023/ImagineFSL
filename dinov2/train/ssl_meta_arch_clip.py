@@ -12,7 +12,7 @@ from torch import nn
 import torch.distributed as dist
 from dinov2.loss import DINOLoss, iBOTPatchLoss, KoLeoLoss
 from dinov2.models import *
-from dinov2.layers import DINOHead,GaussHead
+from dinov2.layers import DINOHead,HoMHead
 from dinov2.utils.utils import has_batchnorms
 from dinov2.utils.param_groups import get_params_groups_with_decay, fuse_params_groups
 from dinov2.utils.template import TEMPLATES
@@ -113,7 +113,7 @@ class SSLMetaArch(nn.Module):
             logger.info(f"OPTIONS -- DINO -- head_hidden_dim: {cfg.dino.head_hidden_dim}")
             self.dino_loss_weight = cfg.dino.loss_weight
             dino_head = partial(
-                GaussHead,
+                HoMHead,
                 in_dim=embed_dim*4,
                 out_dim=cfg.dino.head_n_prototypes,
                 hidden_dim=cfg.dino.head_hidden_dim,

@@ -60,7 +60,7 @@ def _build_mlp(nlayers, in_dim, bottleneck_dim, hidden_dim=None, use_bn=False, b
         return nn.Sequential(*layers)
 
 
-class GaussHead(nn.Module):
+class HoMHead(nn.Module):
     def __init__(
         self,
         in_dim=2048,
@@ -107,10 +107,3 @@ class GaussHead(nn.Module):
             # import pdb; pdb.set_trace()
             if i == layers:
                 return x
-
-if __name__ == '__main__':
-    head = GaussHead()
-    x = torch.randn(1, 8385)
-    output = head.get_intermediate(x, 3)
-    print(output.shape)
-    
