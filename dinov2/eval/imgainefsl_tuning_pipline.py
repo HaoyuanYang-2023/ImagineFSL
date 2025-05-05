@@ -207,8 +207,6 @@ def run(category, num_shot=1):
 
     code_file_name = "ct_tuning_mixing.py"
 
-    method_name = "ct"
-
     interval = 0
     num_shot = str(num_shot)
         
@@ -220,7 +218,7 @@ def run(category, num_shot=1):
     print(adapter_lr_list)
     
     interval += run_phase_tuning(category, epoch_ranges, adapter_lr_list, text_ratio,
-                                    code_file_name, args.pretrain_weights, method_name, num_shots=num_shot)
+                                    code_file_name, args.pretrain_weights, num_shots=num_shot)
 
     return interval
 

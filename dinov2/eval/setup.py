@@ -87,13 +87,13 @@ def build_model_clip_for_eval(config, pretrained_weights, only_backbone):
     model, _ = build_clip_model_from_cfg(config, only_teacher=True)
 
     adapter = bulid_adapter_dr(config.student.adapter, only_teacher=True)
-    gauss_pool = build_hom_pool3(config, only_teacher=True)
+    hom_pool = build_hom_pool3(config, only_teacher=True)
     
    
     dinov2_utils.load_pretrained_weights(model, pretrained_weights, "teacher")
     if not only_backbone:
         dinov2_utils.load_pretrained_weights(adapter, pretrained_weights, "teacher")
-        dinov2_utils.load_pretrained_weights(gauss_pool, pretrained_weights, "teacher")
+        dinov2_utils.load_pretrained_weights(hom_pool, pretrained_weights, "teacher")
 
         
     model.eval()
@@ -101,20 +101,20 @@ def build_model_clip_for_eval(config, pretrained_weights, only_backbone):
     adapter.eval()
     adapter.cuda()
 
-    gauss_pool.eval()
-    gauss_pool.cuda()
+    hom_pool.eval()
+    hom_pool.cuda()
     
     
-    return model, adapter, gauss_pool
+    return model, adapter, hom_pool
 
 
 def setup_and_build_model_clip(args, only_backbone) -> Tuple[Any, torch.dtype]:
     cudnn.benchmark = True
     config = setup(args)
-    # return config
-    model, adapter, gauss_pool = build_model_clip_for_eval(config, args.pretrained_weights, only_backbone)
+
+    model, adapter, hom_pool = build_model_clip_for_eval(config, args.pretrained_weights, only_backbone)
     autocast_dtype = get_autocast_dtype(config)
-    return model, adapter, gauss_pool, autocast_dtype
+    return model, adapter, hom_pool, autocast_dtype
 
 
 @torch.inference_mode()
@@ -139,8 +139,6 @@ def evaluate_with_clip_v4_logits(
     header = "Test:"
 
     fused = fused_weight * visual_logits + visual_text_logits
-    # fused = fused_weight * (visual_logits / visual_logits.norm(dim=-1, keepdim=True) )+ (1-fused_weight) * (visual_text_logits / visual_text_logits.norm(dim=-1, keepdim=True))
-    # fused = fused_weight * F.softmax(visual_logits) + F.softmax(visual_text_logits)
 
 
     outputs = {
@@ -149,7 +147,6 @@ def evaluate_with_clip_v4_logits(
         "fused": fused
     }
 
-    # if len(metrics.keys()) > 1:
     for k, metric in metrics.items():
         
         metric_inputs = {
@@ -160,9 +157,7 @@ def evaluate_with_clip_v4_logits(
 
 
     metric_logger.synchronize_between_processes()
-    # logger.info(f"Alpha: {alpha}")
     logger.info(f"Weight: {fused_weight}, Averaged stats: {metric_logger}")
-    # import pdb; pdb.set_trace()
 
     stats = {k: metric.compute() for k, metric in metrics.items()}
     metric_logger_stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}

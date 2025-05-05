@@ -820,24 +820,24 @@ def run_eval_linear(
 
 
 class Adapter(nn.Module):
-    def __init__(self, adapter, gauss_pool, gauss_head=None):
+    def __init__(self, adapter, hom_pool, gauss_head=None):
         super().__init__()
         self.adapter = adapter
-        self.gauss_pool = gauss_pool
+        self.hom_pool = hom_pool
         self.gauss_head = gauss_head
     def forward(self, x):
         x = self.adapter(x, is_training=True)
         cls_tokens = x["x_norm_clstoken"] # [2BS, 512] 
         patch_tokens = x["x_norm_patchtokens"] # [2BS x 196 x 512]
         x = torch.cat((cls_tokens.unsqueeze(1), patch_tokens), dim=1) # [2BS x 197 x 512]
-        x = self.gauss_pool(x)
+        x = self.hom_pool(x)
         return x
 
 def main(args):
     
-    model, adapter, gauss_pool, autocast_dtype= setup_and_build_model_clip(args, only_backbone=False)
+    model, adapter, hom_pool, autocast_dtype= setup_and_build_model_clip(args, only_backbone=False)
 
-    adapter = Adapter(adapter, gauss_pool)
+    adapter = Adapter(adapter, hom_pool)
 
     model.transformer = lora_replace_attention_layers_vis(
             model.transformer,
