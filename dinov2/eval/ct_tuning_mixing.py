@@ -571,7 +571,6 @@ def fine_tune(
                 temperature=temperature,
                 linear_classifiers=remove_ddp_wrapper(linear_classifiers),
                 data_loader=val_data_loader,
-                metrics_file_path=metrics_file_path,
                 prefixstring=f"ITER: {iteration}",
                 metric_type=metric_type,
                 training_num_classes=training_num_classes,
@@ -637,7 +636,6 @@ def make_dataset(category, num_shots):
         root = syn_dataset_root[category]
         dataset = SynDataset(root)
         syn_train_dataset = dataset.train
-        syn_classnames = dataset.class_name
         assert training_num_classes == dataset.num_classes, "Real and synthetic dataset should have the same number of classes"
         assert real_train_dataset.classes == syn_train_dataset.classes, "Real and synthetic dataset should have the same classes"
 

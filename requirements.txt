@@ -13,3 +13,6 @@ omegaconf
 torchmetrics==0.10.3
 iopath
 tensorboardX
+
+### LoRA
+loralib

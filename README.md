@@ -174,36 +174,32 @@ You need to specify the path to vision classifier, adapter, text classifier and 
 
 **ImagineFSL_LoRA**:
 
-<!-- The code for ImagienFSL_LoRA is coming soon. -->
 
 Set the pretrain model path in the following shell script and run it: 
 ```
 sh run_imaginefsl_lora.sh
 ```
+You need to set the dataset path in the `dinov2/eval/ct_lora_tuning_mixing.py` first.
+
 For evaluation, run the following command:
 
 ```
 sh run_imaginefsl_lora_eval.sh
 ```
-You need to specify the path to vision model, vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight.
+You need to specify the path to vision model, vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight, rank.
 
 We provide download links for fine-tuned models on 1-/16-shot settings (ViT-B/16) across 11 datasets:
 
 |Method|1-shot|16-shot|
 |:-|:-:|:-:|
 |ImagineFSL| 76.1 \| [`Baidu Yun`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq) \| [`Google Drive`](https://drive.google.com/drive/folders/1-6-kHsgYmXJAwbBn0HV4A2nYkd2bBgva?usp=drive_link)| 86.4 \| [`Baidu Yun`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f) \| [ `Google Drive`](https://drive.google.com/drive/folders/1-5MMNE69OQKCcAMqwCpVeX0hyfn7kt6W?usp=drive_link) |
-|ImagineFSL_LoRA|77.5 \| [`Baidu Yun`](https://pan.baidu.com/s/11P61q63LVbxxiX3ZsORpVA?pwd=a9md) \| [`Google Drive`](https://drive.google.com/drive/folders/10I_kpcFId7JQgByAgKasMeWsm7GaYq95?usp=sharing) | 87.6 \| [`coming soon`]()|
+|ImagineFSL_LoRA|77.6 \| [`Baidu Yun`](https://pan.baidu.com/s/11P61q63LVbxxiX3ZsORpVA?pwd=a9md) \| [`Google Drive`](https://drive.google.com/drive/folders/10I_kpcFId7JQgByAgKasMeWsm7GaYq95?usp=sharing) | 87.6 \| [`Baidu Yun`]( https://pan.baidu.com/s/15XSGTHI_vF1sjCMgfELJAg?pwd=13ev) \| [`Google Dribe`]()|
 |||
 
 Detailed results of All K-shot settings can be found in [`here`](https://github.com/HaoyuanYang-2023/ImagineFSL/tree/main/results).
 
 **Note: Due to randomness, the results may slightly differ from those in the paper. We recommend evaluating all methods and models across 11 datasets to observe the average performance.**
 
-<!-- ---- -->
-
-<!-- ### 4. Evaluation -->
-
-<!-- `Code for evalution only is coming soon...` -->
 
 ## Acknowledgement
 

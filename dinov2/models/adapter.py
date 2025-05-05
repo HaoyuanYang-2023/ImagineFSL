@@ -1,13 +1,8 @@
 import torch
 import torch.nn as nn
 from torch import Tensor
-from dinov2.layers import Mlp, PatchEmbed, SwiGLUFFNFused, MemEffAttention, MemEffAttentionDr, NestedTensorBlock as Block
+from dinov2.layers import Mlp, MemEffAttentionDr, NestedTensorBlock as Block
 from functools import partial
-import math
-from collections import OrderedDict
-from typing import Callable
-
-    
     
 class AdapterDr(nn.Module):
     def __init__(self, embed_dim=512, qkv_dim=384,
@@ -18,7 +13,6 @@ class AdapterDr(nn.Module):
                  ffn_layer=Mlp, 
                  norm_layer=nn.LayerNorm,
                  drop_path_uniform=True,
-                 pos_embed=None,
                  ):
         super().__init__()
         
@@ -61,7 +55,7 @@ class AdapterDr(nn.Module):
             output.append(
                 {
                     "x_norm_clstoken": x[:, 0],
-                    "x_norm_patchtokens": x[:,1 :],
+                    "x_norm_patchtokens": x[:,1:],
                 }
             )
             
@@ -69,14 +63,14 @@ class AdapterDr(nn.Module):
     
     def forward_features(self, x): 
         if isinstance(x, list):
-            return self.forward_features_list(x, masks)
+            return self.forward_features_list(x)
 
         for blk in self.blocks:
             x = blk(x)
                 
         return {
             "x_norm_clstoken": x[:, 0],
-            "x_norm_patchtokens": x[:,1 :],
+            "x_norm_patchtokens": x[:,1:],
         }
     
     def forward(self, *args, is_training=False, **kwargs):

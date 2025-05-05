@@ -8,7 +8,7 @@ TEXT=YOUR_TEXT_CLASSIFIER_PATH
 PRETRAINED_WEIGHTS=YOUR_PRETRAINED_WEIGHTS_PATH
 FUSE_WEIGTH=THE_FUSE_WEIGHT_REFER_TO_README_TEXT
 
-python dinov2/eval/ct/ct_phase_tuning_gauss_mixing.py \
+python dinov2/eval/ct_lora_tuning_mixing.py \
 --clip-path clip/ViT-B-16.pt \
 --num_workers 16 \
 --config-file dinov2/configs/eval/clip_b16.yaml \

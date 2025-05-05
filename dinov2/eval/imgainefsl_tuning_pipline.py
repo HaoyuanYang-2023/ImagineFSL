@@ -16,14 +16,13 @@ def run_phase_tuning(category, epoch_range, adapter_lr_list, text_ratio,
     start_time = time.time()
     data = []
 
-    mix_method = "logs"
     ckpt_path = "ckpts"
     max_patient_counter = 2
 
 
-    json_file_path = f"./dinov2/eval/mix_train/{mix_method}/{args.exp_name}/{category}/{category}_{num_shots}_shot.json"
-    os.makedirs(f"./dinov2/eval/mix_train/{mix_method}/{args.exp_name}/{category}", exist_ok=True)
-    output_dir = f"./dinov2-clip/mix_train/{ckpt_path}/{args.exp_name}"
+    json_file_path = f"./dinov2/eval/mix_train/{args.exp_name}/{category}/{category}_{num_shots}_shot.json"
+    os.makedirs(f"./dinov2/eval/mix_train/{args.exp_name}/{category}", exist_ok=True)
+    output_dir = f"./dinov2/eval/mix_train/{ckpt_path}/{args.exp_name}"
 
     weights = np.arange(1, 3, 2)
     if not os.path.exists(json_file_path):
@@ -136,8 +135,8 @@ def run_phase_tuning(category, epoch_range, adapter_lr_list, text_ratio,
         test_accuracy = 'error'
         return
 
-    test_file_path = f"./dinov2/eval/ct/mix_train/{mix_method}/{args.exp_name}/{category}/test_results.json"
-    os.makedirs(f"./dinov2/eval/ct/mix_train/{mix_method}/{args.exp_name}/{category}", exist_ok=True)
+    test_file_path = f"./dinov2/eval/mix_train/{args.exp_name}/{category}/test_results.json"
+    os.makedirs(f"./dinov2/eval/mix_train/{args.exp_name}/{category}", exist_ok=True)
     test_accuracy, record = analyze_and_record(test_result, test_file_path, num_shots, best_param=best_param)
 
     end_time = time.time()

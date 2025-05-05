@@ -31,7 +31,7 @@ logger = logging.getLogger("dinov2")
 
 
 def get_args_parser(add_help: bool = True):
-    parser = argparse.ArgumentParser("DINOv2 training", add_help=add_help)
+    parser = argparse.ArgumentParser("Pre training", add_help=add_help)
     parser.add_argument("--config-file", default="", metavar="FILE", help="path to config file")
     parser.add_argument(
         "--no-resume",
@@ -57,13 +57,7 @@ For python-based LazyConfig, use "path.key=value".
         type=str,
         help="Output directory to save logs and checkpoints",
     )
-    parser.add_argument(
-        "--pretrained-weight",
-        "--pretrained_weight",
-        default="",
-        type=str,
-        help="Path to the pretrained weights",
-    )
+
     parser.add_argument(
         "--lr",
         default=0.,
@@ -353,14 +347,6 @@ def main(args):
     
     model = SSLMetaArch(cfg).to(torch.device("cuda"))
     
-    
-    if args.pretrained_weight != "":
-        ckpt = torch.load(args.pretrained_weight,map_location="cpu")['teacher']
-        msg1 = model.teacher.load_state_dict(ckpt, strict=True)
-        msg2 = model.student.load_state_dict(ckpt, strict=True)
-        assert len(msg1.missing_keys) == 0, f"Missing keys when loading pretrained weight: {msg.missing_keys}"
-        assert len(msg2.missing_keys) == 0, f"Missing keys when loading pretrained weight: {msg.missing_keys}"
-        logger.info(f"Loaded pretrained weight from {args.pretrained_weight}")
     
     # Conver
     model.prepare_for_distributed_training()

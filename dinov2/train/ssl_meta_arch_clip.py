@@ -10,7 +10,7 @@ import torch
 import json
 from torch import nn
 import torch.distributed as dist
-from dinov2.loss import DINOLoss, iBOTPatchLoss, KoLeoLoss, MEMAXLoss
+from dinov2.loss import DINOLoss, iBOTPatchLoss, KoLeoLoss
 from dinov2.models import *
 from dinov2.layers import DINOHead,GaussHead
 from dinov2.utils.utils import has_batchnorms
@@ -21,7 +21,7 @@ from dinov2.fsdp import get_fsdp_wrapper, ShardedGradScaler, get_fsdp_modules, r
 
 from dinov2.models.vision_transformer import BlockChunk
 
-from dinov2.layers.gauss_embed import HoMPool
+from dinov2.layers.embed import HoMPool
 
 try:
     from xformers.ops import fmha
@@ -237,6 +237,7 @@ class SSLMetaArch(nn.Module):
             # get patch tokens
             ibot_teacher_patch_tokens = teacher_backbone_output_dict["x_norm_patchtokens"]
             _dim = teacher_cls_tokens.shape[-1]
+            n_cls_tokens = teacher_cls_tokens.shape[0]
             if do_ibot and not self.ibot_separate_head:
                 # Do DINO and IBOT together with the same head
                 # Set up the buffer tensor for the teacher. max number of patches is upperbound
@@ -330,7 +331,7 @@ class SSLMetaArch(nn.Module):
             x = self.student.backbone(global_crops, masks=masks_t, is_training=True)
             student_global_backbone_output_dict = self.student.adapter(x)
         else:
-            x = self.student.backbone(
+            x_global, x_local = self.student.backbone(
                 [global_crops, local_crops], masks=[masks_t, None], is_training=True, patch_drop=self.patch_drop
             )
             student_global_backbone_output_dict, student_local_backbone_output_dict = self.student.adapter(

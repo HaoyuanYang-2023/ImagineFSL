@@ -163,7 +163,6 @@ class FewShotDataset():
             ),
             transforms.RandomGrayscale(p=0.2),
             GaussianBlur(0.2),
-            # Solarization(0.2),
         ])
 
         train_preprocess = transforms.Compose([
@@ -256,20 +255,7 @@ class SynDataset():
         ])
 
 
-        if preproces is None:
-            test_preprocess = transforms.Compose([
-                transforms.Resize(224, interpolation=BICUBIC),
-                transforms.CenterCrop(224),
-                transforms.ToTensor(),
-                transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)),
-                # transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
-            ])
-        else:
-            test_preprocess = preproces
-
         self.train = torchvision.datasets.ImageFolder(root=self.image_dir, transform=train_preprocess)
         self.num_classes = len(self.train.classes)
-
-        self.class_name = self.train.classes
 
 

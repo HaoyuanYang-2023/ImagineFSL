@@ -10,12 +10,17 @@ import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 
-from dinov2.models import build_model_from_cfg, build_clip_model_from_cfg, bulid_adapter, bulid_adapter_dr, build_gauss_pool3
+from dinov2.models import build_model_from_cfg, build_clip_model_from_cfg, bulid_adapter_dr, build_hom_pool3
 
-from dinov2.layers.dino_head import DINOHead, GaussHead
 from dinov2.utils.config import setup
 import dinov2.utils.utils as dinov2_utils
-from dinov2.models import bulid_text_adapter
+from dinov2.logging import MetricLogger
+
+import logging
+from typing import Dict, Optional
+from torchmetrics import MetricCollection
+
+logger = logging.getLogger("dinov2")
 
 def get_args_parser(
     description: Optional[str] = None,
@@ -80,10 +85,9 @@ def setup_and_build_model(args) -> Tuple[Any, torch.dtype]:
 
 def build_model_clip_for_eval(config, pretrained_weights, only_backbone):
     model, _ = build_clip_model_from_cfg(config, only_teacher=True)
-    # import pdb;pdb.set_trace()
-    # print(config)
+
     adapter = bulid_adapter_dr(config.student.adapter, only_teacher=True)
-    gauss_pool = build_gauss_pool3(config, only_teacher=True)
+    gauss_pool = build_hom_pool3(config, only_teacher=True)
     
    
     dinov2_utils.load_pretrained_weights(model, pretrained_weights, "teacher")
@@ -111,4 +115,57 @@ def setup_and_build_model_clip(args, only_backbone) -> Tuple[Any, torch.dtype]:
     model, adapter, gauss_pool = build_model_clip_for_eval(config, args.pretrained_weights, only_backbone)
     autocast_dtype = get_autocast_dtype(config)
     return model, adapter, gauss_pool, autocast_dtype
+
+
+@torch.inference_mode()
+def evaluate_with_clip_v4_logits(
+    visual_logits,
+    visual_text_logits,
+    targets,
+    metrics: Dict[str, MetricCollection],
+    device: torch.device,
+    criterion: Optional[nn.Module] = None,
+    fused_weight = 1.0
+):
+    assert criterion is None
+
+    if criterion is not None:
+        criterion.eval()
+
+    for metric in metrics.values():
+        metric = metric.to(device)
+
+    metric_logger = MetricLogger(delimiter="  ")
+    header = "Test:"
+
+    fused = fused_weight * visual_logits + visual_text_logits
+    # fused = fused_weight * (visual_logits / visual_logits.norm(dim=-1, keepdim=True) )+ (1-fused_weight) * (visual_text_logits / visual_text_logits.norm(dim=-1, keepdim=True))
+    # fused = fused_weight * F.softmax(visual_logits) + F.softmax(visual_text_logits)
+
+
+    outputs = {
+        "visual": visual_logits,
+        "text": visual_text_logits,
+        "fused": fused
+    }
+
+    # if len(metrics.keys()) > 1:
+    for k, metric in metrics.items():
+        
+        metric_inputs = {
+                "preds": outputs[k],
+                "target": targets,
+            }
+        metric.update(**metric_inputs)
+
+
+    metric_logger.synchronize_between_processes()
+    # logger.info(f"Alpha: {alpha}")
+    logger.info(f"Weight: {fused_weight}, Averaged stats: {metric_logger}")
+    # import pdb; pdb.set_trace()
+
+    stats = {k: metric.compute() for k, metric in metrics.items()}
+    metric_logger_stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
+    return metric_logger_stats, stats
+
 

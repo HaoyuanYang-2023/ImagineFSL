@@ -564,50 +564,13 @@ class VisionTransformer(nn.Module):
         x = x + self.interpolate_pos_encoding(x, w, h)
         return x
     
-    
-    def prepare_tokens_with_masks_mae(self, x, unmaksed_ids=None):
-        B, nc, w, h = x.shape
-        # print(x.shape)
-        # print(self.conv1.weight.shape)
-        x = self.conv1(x)
-        x = x.reshape(x.shape[0], x.shape[1], -1)  # shape = [*, width, grid ** 2]
-        x = x.permute(0, 2, 1)  # shape = [*, grid ** 2, width] N,L,D
-        
-        cls_token = self.class_embedding.to(x.dtype).unsqueeze(0).unsqueeze(0) # [1, 1, width]
-        
-        x = torch.cat((cls_token.expand(x.shape[0], -1, -1), x), dim=1)
-        
-        x = x + self.interpolate_pos_encoding(x, w, h).to(x.dtype)
 
-        if unmaksed_ids is not None:
-            x_ = torch.gather(x[:,1:,:], 1, unmaksed_ids.unsqueeze(-1).repeat(1,1,x.shape[-1]))
-            x = torch.cat([x[:,:1,:], x_], dim=1) # [CLS] + Patch Tokens
-            return x
-        return x
-
-    def forward_features_list(self, x_list, masks_list, patch_drop=0):
+    def forward_features_list(self, x_list, masks_list):
         if masks_list is not None:
             x = [self.prepare_tokens_with_masks(x, masks) for x, masks in zip(x_list, masks_list)]
         else:
             x = [self.prepare_tokens_with_masks(x, None) for x in x_list]
-        # x(0) Global Tokens, x(1) Patch Tokens
-        # import pdb; pdb.set_trace()
         
-        #---- Patch Drop for MSN ----#
-        # if patch_drop > 0:
-            # patch_keep = 1. - patch_drop
-            # global_patch_len = x[0].shape[1] # only mask for global token
-            # T_H = int(np.floor((global_patch_len-1)*patch_keep))
-            # perm = 1 + torch.randperm(global_patch_len-1)[:T_H]  # patch token idx
-            
-            # # slice of patches, add idx of [CLS]
-            # idx = torch.cat([torch.zeros(1, dtype=perm.dtype, device=perm.device), perm]) 
-            
-            # x[0] = x[0][:, idx, :] # keep only a subset of the patches, mask for global token
-            # x[0], mask, ids_restore = self.random_masking(x[0][:,1:,:], patch_drop) # Masking for Patch Tokens
-            # x[0] = torch.cat([x[0][:,:1,:], x[0]], dim=1) # Concatenate with [CLS] token
-        # --------------------------#
-        # import pdb; pdb.set_trace()
         x = [self.ln_pre(x_) for x_ in x]
         # x = x.permute(1, 0, 2)  # NLD -> LND
         x = self.transformer(x)
@@ -630,71 +593,7 @@ class VisionTransformer(nn.Module):
         return output
 
     
-    def random_masking(self, x, mask_ratio):
-        """
-        Perform per-sample random masking by per-sample shuffling.
-        Per-sample shuffling is done by argsort random noise.
-        x: [N, L, D], sequence
-        """
-        N, L, D = x.shape  # batch, length, dim
-        len_keep = int(L * (1 - mask_ratio))
-        
-        noise = torch.rand(N, L, device=x.device)  # noise in [0, 1]
-        
-        # sort noise for each sample
-        ids_shuffle = torch.argsort(noise, dim=1)  # ascend: small is keep, large is remove
-        ids_restore = torch.argsort(ids_shuffle, dim=1)
-
-        # keep the first subset
-        ids_keep = ids_shuffle[:, :len_keep]
-        # ids_keep = torch.sort(ids_keep, dim=1)[0]  # sort for keeping the original order
-        x_masked = torch.gather(x, dim=1, index=ids_keep.unsqueeze(-1).repeat(1, 1, D))
-
-        # generate the binary mask: 0 is keep, 1 is remove
-        mask = torch.ones([N, L], device=x.device)
-        mask[:, :len_keep] = 0
-        # unshuffle to get the binary mask
-        mask = torch.gather(mask, dim=1, index=ids_restore)
-
-        return x_masked, ids_restore
-    
-    # def forward_features(self, x, unmaksed_ids=None, patch_drop=0):
-    #     if isinstance(x, list):
-    #         return self.forward_features_list(x, unmaksed_ids, patch_drop)
-    #     x = self.prepare_tokens_with_masks(x, unmaksed_ids)
-    #     # import pdb; pdb.set_trace()
-        
-    #     #---- Patch Drop for MSN ----#
-    #     #if patch_drop > 0:
-    #         # patch_keep = 1. - patch_drop
-    #         # N, global_patch_len = x.shape[0], x.shape[1] # only mask for global token
-    #         # T_H = int(np.floor((global_patch_len-1)*patch_keep))
-    #         # perm = 1 + torch.randperm(global_patch_len-1)[:T_H]  # patch token idx
-    #         # # slice of patches, add idx of [CLS]
-    #         # idx = torch.cat([torch.zeros(1, dtype=perm.dtype, device=perm.device), perm]) 
-            
-    #         # x = x[:, idx, :] # keep only a subset of the patches, mask for global token
-    #         # mask, ids_restore = None, None
-    #     #    x_masked, mask, ids_restore = self.random_masking(x[:,1:,:], patch_drop) # Masking for Patch Tokens
-    #     #    x = torch.cat([x[:,:1,:], x_masked], dim=1) # Concatenate with [CLS] token
-    #     # --------------------------#
-    #     # else:
-    #     #     mask = None
-    #     #     ids_restore = None
-    #     x = self.ln_pre(x)
-    #     # x = x.permute(1, 0, 2)  # NLD -> LND
-    #     x = self.transformer(x)
-    #     # x = x.permute(1, 0, 2)  # LND -> NLD
-
-    #     x_norm = self.ln_post(x)
-        
-    #     if self.proj is not None:
-    #         x_norm = x_norm @ self.proj
-            
-        # return x_norm
-
-
-    def forward_features(self, x, masks=None, patch_drop=0):
+    def forward_features(self, x, masks=None):
         if isinstance(x, list):
             return self.forward_features_list(x, masks)
         x = self.prepare_tokens_with_masks(x, masks)
