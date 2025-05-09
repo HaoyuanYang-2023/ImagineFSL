@@ -170,7 +170,7 @@ For evaluation, run the following command:
 ```
 sh run_imaginefsl_eval.sh
 ```
-You need to specify the path to vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight and temperature optimized in the previous step.
+You need to specify the path to vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight and temperature optimized in the previous step. 
 
 **ImagineFSL_LoRA**:
 
@@ -195,6 +195,7 @@ We provide download links for fine-tuned models on 1-/16-shot settings (ViT-B/16
 |ImagineFSL| 76.1 \| [`Baidu Yun`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq) \| [`Google Drive`](https://drive.google.com/drive/folders/1-6-kHsgYmXJAwbBn0HV4A2nYkd2bBgva?usp=drive_link)| 86.4 \| [`Baidu Yun`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f) \| [ `Google Drive`](https://drive.google.com/drive/folders/1-5MMNE69OQKCcAMqwCpVeX0hyfn7kt6W?usp=drive_link) |
 |ImagineFSL_LoRA|77.6 \| [`Baidu Yun`](https://pan.baidu.com/s/11P61q63LVbxxiX3ZsORpVA?pwd=a9md) \| [`Google Drive`](https://drive.google.com/drive/folders/10I_kpcFId7JQgByAgKasMeWsm7GaYq95?usp=sharing) | 87.6 \| [`Baidu Yun`]( https://pan.baidu.com/s/15XSGTHI_vF1sjCMgfELJAg?pwd=13ev) \| [`Google Dribe`](https://drive.google.com/drive/folders/11nlNzFf4anzZH8Bqhfia0uriOXRYuEtU?usp=sharing)|
 |||
+**See `readme.txt` in the above links for more details of the models and hyperparameters for inference.**
 
 Detailed results of All K-shot settings can be found in [`here`](https://github.com/HaoyuanYang-2023/ImagineFSL/tree/main/results).
 
