@@ -35,7 +35,7 @@ real_dataset_root = {
     'aircraft': '/home/Dataset/CLIP_Dataset/Aircraft',
     'caltech101': '/home/Dataset/CLIP_Dataset/Caltech101',
     'eurosat': '/home/Dataset/CLIP_Dataset/EuroSAT',
-    'ucf101_midframes': '/home/Dataset/CLIP_Dataset/UCF101',
+    'ucf101': '/home/Dataset/CLIP_Dataset/UCF101',
     'sun397': '/home/Dataset/CLIP_Dataset/SUN397',
 }
 
@@ -43,13 +43,13 @@ syn_dataset_root = {
     'imagenet': '/SSD2T/synthetic0302/imagenet/view1',
     'food101': '/SSD2T/synthetic1005/food101',
     'flowers': '/SSD2T/synthetic1005/flowers',
-    'cars':  '/SSD2T/synthetic1005/cars',
+    'cars':  '/SSD2T/synthetic1005/cars_new',
     'dtd': '/SSD2T/synthetic1005/dtd',
     'pets': '/SSD2T/synthetic1005/pets',
     'aircraft': '/SSD2T/synthetic1005/aircraft',
     'caltech101': '/SSD2T/synthetic1005/caltech101',
     'eurosat': '/SSD2T/synthetic1005/eurosat',
-    'ucf101_midframes': '/SSD2T/synthetic1005/ucf101_frames',
+    'ucf101': '/SSD2T/synthetic1005/ucf101_frames/clean',
     'sun397': '/SSD2T/synthetic1005/sun397/clean',
 }
 
@@ -354,49 +354,51 @@ def evaluate_with_text(
 
     metric_logger = MetricLogger(delimiter="  ")
     header = "Test:"
-
-    best_acc = 0.0
-    best_weight = 0.0
-
-    for weight in test_fuse_weight:
-        weight = weight.item() if hasattr(weight, 'item') else weight
-        clip_num = 0
-        dino_num = 0
-
-        for samples, targets, *_ in metric_logger.log_every(data_loader, 10, header):
-            features = clip_model(samples.to(device))
-            outputs = feature_model(features)
-            targets = targets.to(device)
-
-            clip_logit = classifier_head(features[:, 0, :]) * torch.exp(temperature)
-
-            metric_inputs = postprocessors(outputs, targets)
-
-            dino_num += (torch.argmax(metric_inputs['preds'], dim=-1) == targets).sum()
-
-            fused_outputs = (weight * metric_inputs['preds'] / metric_inputs['preds'].norm(dim=1, keepdim=True) * 100
-                             + (1 - weight) * clip_logit / clip_logit.norm(dim=1, keepdim=True) * 100)
-
-
-            metric_inputs['preds'] = fused_outputs
-
-            metric.update(**metric_inputs)
-            clip_num += (torch.argmax(clip_logit, dim=-1) == targets).sum()
-
-        clip_acc = clip_num / len(data_loader.dataset)
-        dino_acc = dino_num / len(data_loader.dataset)
-        acc = [metric.compute() for k, metric in metrics.items()][0]['top-1']
-        print(f"clip_acc: {clip_acc}, visual_acc: {dino_acc}, weight: {weight}, fuse acc: {acc}")
+    if not args.eval_only:
+        best_acc = 0.0
+        best_weight = 0.0
         
-        metric.reset()
-        
-        if acc >= best_acc:
-            best_acc = acc
-            best_weight = weight
-        else:
-            break
-        test_acc = best_acc
-        
+        for weight in test_fuse_weight:
+            weight = weight.item() if hasattr(weight, 'item') else weight
+            clip_num = 0
+            dino_num = 0
+
+            for samples, targets, *_ in metric_logger.log_every(data_loader, 10, header):
+                features = clip_model(samples.to(device))
+                outputs = feature_model(features)
+                targets = targets.to(device)
+
+                clip_logit = classifier_head(features[:, 0, :]) * torch.exp(temperature)
+
+                metric_inputs = postprocessors(outputs, targets)
+
+                dino_num += (torch.argmax(metric_inputs['preds'], dim=-1) == targets).sum()
+
+                fused_outputs = (weight * metric_inputs['preds'] / metric_inputs['preds'].norm(dim=1, keepdim=True) * 100
+                                + (1 - weight) * clip_logit / clip_logit.norm(dim=1, keepdim=True) * 100)
+
+
+                metric_inputs['preds'] = fused_outputs
+
+                metric.update(**metric_inputs)
+                clip_num += (torch.argmax(clip_logit, dim=-1) == targets).sum()
+
+            clip_acc = clip_num / len(data_loader.dataset)
+            dino_acc = dino_num / len(data_loader.dataset)
+            acc = [metric.compute() for k, metric in metrics.items()][0]['top-1']
+            print(f"clip_acc: {clip_acc}, visual_acc: {dino_acc}, weight: {weight}, fuse acc: {acc}")
+            
+            metric.reset()
+            
+            if acc >= best_acc:
+                best_acc = acc
+                best_weight = weight
+            else:
+                break
+            test_acc = best_acc
+    else:
+        best_weight = args.fuse_weight
+        temperature = torch.tensor(args.temperature, device=device)
     if args.is_test == "True":
         clip_num = 0
         dino_num = 0
@@ -571,12 +573,9 @@ def fine_tune(
                 temperature=temperature,
                 linear_classifiers=remove_ddp_wrapper(linear_classifiers),
                 data_loader=val_data_loader,
-                prefixstring=f"ITER: {iteration}",
                 metric_type=metric_type,
                 training_num_classes=training_num_classes,
-                iteration=iteration,
                 class_mapping=val_class_mapping,
-                fuse_weight=fuse_weight,
             )
     print(f"FINAL_ACCURACY:{test_acc},{clip_acc},{visual_acc},{temperature.item()}")
     print(f"Temperature: {temperature}")
@@ -735,7 +734,6 @@ def run_eval_linear(
     
     fine_tune(
         clip_model=clip_model,
-        clip_text_model=clip_text_model,
         classifier_head=classifier_head,
         temperature=temperature,
         feature_model=feature_model,
@@ -781,8 +779,6 @@ def main(args):
         adapter=adapter,
         output_dir=args.output_dir,
         num_shots=args.num_shots,
-        root=args.root,
-        category=args.category,
         batch_size=args.batch_size,
         epochs=args.epochs,
         epoch_length=args.epoch_length,

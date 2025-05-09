@@ -217,4 +217,4 @@ class SyntAugDataset(ImageFolder):
         output["offsets"] = ()
         output["global_crops_teacher"] = output["global_crops"]
         
-        return output, torch.tensor([target] * self.num_views), [views[0][0], views[1][0]]
+        return output, torch.tensor([target] * self.num_views)

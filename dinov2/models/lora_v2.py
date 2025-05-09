@@ -92,7 +92,8 @@ class LoRAMultiHeadAttention(nn.Module):
         # import pdb; pdb.set_trace()
         query = query.transpose(1, 0)
         tgt_len, bsz, embed_dim = query.shape
-        src_len, _, _ = key.shape
+        # src_len, _, _ = key.shape
+        src_len = tgt_len
 
         E = query.size(-1)
         qkv = self.qkv(query)

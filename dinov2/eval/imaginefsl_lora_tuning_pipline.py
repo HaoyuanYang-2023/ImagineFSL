@@ -54,7 +54,7 @@ def run_phase_tuning(category, lora_lr_list, adapter_lr_list, vis_ratio, text_ra
                         for rlw in rlw_list:
                             for drp in drp_list:
                                 for wd in weight_decay:
-                                    
+
                                     lr3 = lr2 * vis_ratio
                                     lr4 = lr2 * text_ratio
 
@@ -228,20 +228,23 @@ def run(category, args, num_shot=1):
     
     visual_lr_list = [1e-6, 1e-5, 1e-4, 1e-3]
     adapter_lr_list = [1e-6, 1e-5, 1e-4, 1e-3]
-    
-    
+
+
     lora_r_list = [64, 32, 16]
     lora_scale_list = [64, 32]
     
     text_ratio = 1.0
     vis_ratio = 10.0
+    
     rlw_list = [0.8]
+    
     epochs = [10]
     drp_list = [0.0]
     batch_size = 64
     wd = [1e-4]
     
     code_file_name = "ct_lora_tuning_mixing.py"
+    
     interval += run_phase_tuning(category,
                                 visual_lr_list, adapter_lr_list, vis_ratio, text_ratio,
                                 lora_r_list, lora_scale_list, rlw_list, drp_list,epochs, wd,
@@ -265,7 +268,8 @@ if __name__ == '__main__':
     num_shots = [1,2,4,8,16]
     dataset = ['imagenet', 'caltech101','aircraft','cars',
                'food101','pets','flowers','dtd','eurosat', 
-               'sun397', 'ucf101_frames']
+               'sun397', 'ucf101']
+    
 
     print(f"train {dataset}")
     for category in dataset:

@@ -210,7 +210,7 @@ def clip_classifier(classnames, template, text_encoder):
             texts = [t.format(classname) for t in template]
             texts = clip.tokenize(texts).cuda()
             # prompt ensemble for ImageNet
-            class_embeddings = ctext_encoder(texts)
+            class_embeddings = text_encoder(texts)
             class_embeddings /= class_embeddings.norm(dim=-1, keepdim=True)
             class_embedding = class_embeddings.mean(dim=0)
             class_embedding /= class_embedding.norm()
@@ -218,3 +218,49 @@ def clip_classifier(classnames, template, text_encoder):
 
         clip_weights = torch.stack(clip_weights, dim=1).t().cuda()
     return clip_weights
+
+@torch.inference_mode()
+def evaluate_with_clip_v4_logits(
+    visual_logits,
+    visual_text_logits,
+    targets,
+    metrics: Dict[str, MetricCollection],
+    device: torch.device,
+    criterion: Optional[nn.Module] = None,
+    fused_weight = 1.0
+):
+    assert criterion is None
+
+    if criterion is not None:
+        criterion.eval()
+
+    for metric in metrics.values():
+        metric = metric.to(device)
+
+    metric_logger = MetricLogger(delimiter="  ")
+    header = "Test:"
+
+    fused = fused_weight * visual_logits + visual_text_logits
+
+
+    outputs = {
+        "visual": visual_logits,
+        "text": visual_text_logits,
+        "fused": fused
+    }
+
+    for k, metric in metrics.items():
+        
+        metric_inputs = {
+                "preds": outputs[k],
+                "target": targets,
+            }
+        metric.update(**metric_inputs)
+
+
+    metric_logger.synchronize_between_processes()
+    logger.info(f"Weight: {fused_weight}, Averaged stats: {metric_logger}")
+
+    stats = {k: metric.compute() for k, metric in metrics.items()}
+    metric_logger_stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
+    return metric_logger_stats, stats

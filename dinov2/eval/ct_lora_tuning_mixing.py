@@ -24,10 +24,10 @@ from dinov2.eval.setup import get_args_parser as get_setup_args_parser
 from dinov2.eval.setup import setup_and_build_model_clip
 from dinov2.eval.utils import ModelWithIntermediateLayers, evaluate_with_clip, evaluate_with_clip_v4_logits
 from dinov2.logging import MetricLogger
-from dinov2.data.datasets import ImageNetFS, FewShotDataset, SynDataset
+from dinov2.data.datasets import FewShotDataset, SynDataset
 import copy
 from dinov2.models.lora_v2 import lora_replace_attention_layers_vis
-from dinov2.eval.ct.finetune_with_text_utils import ImageClassifierWithCLIP
+from dinov2.eval.finetune_with_text_utils import ImageClassifierWithCLIP
 
 logger = logging.getLogger("dinov2")
 real_dataset_root = {
@@ -445,7 +445,7 @@ def evaluate_classifiers(
 
         print(f"Val Acc: {best_acc_fuse}, {best_acc_text}, {best_acc_visual}")
         print(f"weight: {best_fuse_weight}")
-    
+
     else:
         best_fuse_weight = args.fuse_weight
         

@@ -88,11 +88,11 @@ def run_phase_tuning(category, epoch_range, adapter_lr_list, text_ratio,
                 if best_acc_epoch >= best_acc_lr:
                     best_acc_lr = best_acc_epoch
                     best_param_lr = best_param_epoch
-                    print(f"{category}  weight: {best_param_lr['weight']}; acc: {best_param_lr['accuracy']}")
-                    print(f"total time: {(time.time() - start_time) / 3600:.2f} hours")
-                else:
-                    print(f"{category}  weight: {best_param_lr['weight']}; acc: {best_param_lr['accuracy']}")
-                    print(f"total time: {(time.time() - start_time) / 3600:.2f} hours")
+                    # print(f"{category}  weight: {best_param_lr['weight']}; acc: {best_param_lr['accuracy']}")
+                    # print(f"total time: {(time.time() - start_time) / 3600:.2f} hours")
+                # else:
+                print(f"{category}  weight: {best_param_lr['weight']}; acc: {best_param_lr['accuracy']}")
+                print(f"total time: {(time.time() - start_time) / 3600:.2f} hours")
 
             if best_acc_lr >= best_acc:
                 best_acc = best_acc_lr
@@ -140,7 +140,7 @@ def run_phase_tuning(category, epoch_range, adapter_lr_list, text_ratio,
     test_accuracy, record = analyze_and_record(test_result, test_file_path, num_shots, best_param=best_param)
 
     end_time = time.time()
-    interval = (start_time - end_time) / 3600
+    interval = (end_time - start_time) / 3600
     print(f"{category} Final Acc: {test_accuracy}")
     print(f"{category} training time: {interval:.2f} hours")
     return interval
@@ -212,10 +212,7 @@ def run(category, num_shot=1):
         
     adapter_lr_list = [1e-6, 1e-5, 1e-4, 1e-3]
     epoch_ranges = np.arange(10, 90, 10)
-
     text_ratio = 0.2
-    print(epoch_ranges)
-    print(adapter_lr_list)
     
     interval += run_phase_tuning(category, epoch_ranges, adapter_lr_list, text_ratio,
                                     code_file_name, args.pretrain_weights, num_shots=num_shot)

@@ -62,7 +62,7 @@ def get_cfg_from_args(args):
 def default_setup(args):
     distributed.enable(overwrite=True)
     seed = getattr(args, "seed", 0)
-    # seed = 42
+    # seed = 2
     rank = distributed.get_global_rank()
 
     global logger

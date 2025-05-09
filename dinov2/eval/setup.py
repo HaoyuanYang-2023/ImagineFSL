@@ -10,7 +10,7 @@ import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 
-from dinov2.models import build_model_from_cfg, build_clip_model_from_cfg, bulid_adapter_dr, build_hom_pool3
+from dinov2.models import build_clip_model_from_cfg, bulid_adapter_dr, build_hom_pool3
 
 from dinov2.utils.config import setup
 import dinov2.utils.utils as dinov2_utils
@@ -67,21 +67,6 @@ def get_autocast_dtype(config):
         return torch.float
 
 
-def build_model_for_eval(config, pretrained_weights):
-    model, _ = build_model_from_cfg(config, only_teacher=True)
-    dinov2_utils.load_pretrained_weights(model, pretrained_weights, "teacher")
-    model.eval()
-    model.cuda()
-    return model
-
-
-def setup_and_build_model(args) -> Tuple[Any, torch.dtype]:
-    cudnn.benchmark = True
-    config = setup(args)
-    model = build_model_for_eval(config, args.pretrained_weights)
-    autocast_dtype = get_autocast_dtype(config)
-    return model, autocast_dtype
-
 
 def build_model_clip_for_eval(config, pretrained_weights, only_backbone):
     model, _ = build_clip_model_from_cfg(config, only_teacher=True)
@@ -91,6 +76,7 @@ def build_model_clip_for_eval(config, pretrained_weights, only_backbone):
     
    
     dinov2_utils.load_pretrained_weights(model, pretrained_weights, "teacher")
+    
     if not only_backbone:
         dinov2_utils.load_pretrained_weights(adapter, pretrained_weights, "teacher")
         dinov2_utils.load_pretrained_weights(hom_pool, pretrained_weights, "teacher")
@@ -117,50 +103,5 @@ def setup_and_build_model_clip(args, only_backbone) -> Tuple[Any, torch.dtype]:
     return model, adapter, hom_pool, autocast_dtype
 
 
-@torch.inference_mode()
-def evaluate_with_clip_v4_logits(
-    visual_logits,
-    visual_text_logits,
-    targets,
-    metrics: Dict[str, MetricCollection],
-    device: torch.device,
-    criterion: Optional[nn.Module] = None,
-    fused_weight = 1.0
-):
-    assert criterion is None
-
-    if criterion is not None:
-        criterion.eval()
-
-    for metric in metrics.values():
-        metric = metric.to(device)
-
-    metric_logger = MetricLogger(delimiter="  ")
-    header = "Test:"
-
-    fused = fused_weight * visual_logits + visual_text_logits
-
-
-    outputs = {
-        "visual": visual_logits,
-        "text": visual_text_logits,
-        "fused": fused
-    }
-
-    for k, metric in metrics.items():
-        
-        metric_inputs = {
-                "preds": outputs[k],
-                "target": targets,
-            }
-        metric.update(**metric_inputs)
-
-
-    metric_logger.synchronize_between_processes()
-    logger.info(f"Weight: {fused_weight}, Averaged stats: {metric_logger}")
-
-    stats = {k: metric.compute() for k, metric in metrics.items()}
-    metric_logger_stats = {k: meter.global_avg for k, meter in metric_logger.meters.items()}
-    return metric_logger_stats, stats
 
 

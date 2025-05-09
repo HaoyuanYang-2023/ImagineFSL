@@ -608,8 +608,8 @@ class VisionTransformer(nn.Module):
             x_norm = x_norm @ self.proj
         return x_norm
     
-    def forward(self, x, masks=None, is_training=False, patch_drop=0):
-        ret = self.forward_features(x, masks, patch_drop)
+    def forward(self, x, masks=None, is_training=False):
+        ret = self.forward_features(x, masks)
         if is_training:
             return ret
         else:

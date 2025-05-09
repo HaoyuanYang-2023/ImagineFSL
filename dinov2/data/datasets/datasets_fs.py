@@ -242,7 +242,6 @@ class SynDataset():
             ),
             transforms.RandomGrayscale(p=0.2),
             GaussianBlur(0.2),
-            # Solarization(0.2),
         ])
 
         train_preprocess = transforms.Compose([
@@ -257,5 +256,6 @@ class SynDataset():
 
         self.train = torchvision.datasets.ImageFolder(root=self.image_dir, transform=train_preprocess)
         self.num_classes = len(self.train.classes)
+        self.class_name = self.train.classes
 
 
