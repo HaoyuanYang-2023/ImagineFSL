@@ -19,9 +19,24 @@ This repository contains the official code for **"ImagineFSL: Self-Supervised Pr
 
 In this paper:
 
-- We frame synthetic images as standalone knowledge repositories and present **a CLIP adaptation methodology** that pretrains on purely synthetic images before fine-tuning for few-shot tasks.
+
+- We frame synthetic images as **standalone knowledge
+repositories** and present **a CLIP adaptation methodology** that pretrains on purely synthetic images before fine-tuning for few-shot tasks. This marks a clear departure
+from existing one-stage fine-tuning methods that simply
+treat synthetic images as complements to real images.
+
+- We propose **an improved Self-SL method based on
+DINO**, specifically tailored for FSL. It introduces higher-order moments for image representation and employs
+synthetic augmentation for effective view construction.
+
+- We develop **a systematic and scalable pipeline for synthesizing both captions and images**, enabling generation
+of large-scale base sets for pretraining and task-specific
+datasets. Distinct from existing arts, we leverage CoT and
+ICL techniques for diverse, realistic image generation.
+
+<!-- - We frame synthetic images as standalone knowledge repositories and present **a novel CLIP adaptation methodology** that pretrains on purely synthetic images before fine-tuning for few-shot tasks.
 - We propose **an improved Self-SL method** based on DINO. It introduces higher-order moments for image representation and employs synthetic augmentation for effective view construction.
-- We develop **a systematic and scalable pipeline** for synthesizing both captions and images, enabling generation of large-scale base sets for pretraining and task-specific datasets.
+- We develop **a systematic and scalable pipeline** for synthesizing both captions and images, enabling generation of large-scale base sets for pretraining and task-specific datasets. -->
 
 
 ## Installation
@@ -42,7 +57,7 @@ cd ImagineFSL
 We conduct experiments using PyTorch 2.2.2 and Python 3.10. The CUDA version is 12.1. Install the corresponding PyTorch environment using:
 
 ```
-pip install torch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 --index-url https://download.pytorch.org/whl/cu121
+pip install torch==2.2.2 torchvision==0.17.2 --index-url https://download.pytorch.org/whl/cu121
 ```
 
 Install other dependencies using:
@@ -215,22 +230,25 @@ We provide download links for fine-tuned models on 1-/16-shot settings for ViT-B
 
 > ##### *See `readme.txt` in the above links for more details of the models and hyperparameters for inference.*
 
-**Detailed results of All K-shot settings can be found in [`here`](https://github.com/HaoyuanYang-2023/ImagineFSL/tree/main/results).**
+**Detailed results of All K-shot settings can be found in `results/` folder.**
 
 
 ## Acknowledgement
 
-- Thanks for the authors of CLIP and DINOv2.  We build this repo based on the offical code of [`CLIP`](https://github.com/openai/CLIP) and [`DINOv2`](https://github.com/facebookresearch/dinov2).
-- Thanks for the authors of CoOp for [`dataset instructions`](https://github.com/KaiyangZhou/CoOp/blob/main/DATASETS.md), DISEF for [`their codebase`](https://github.com/vturrisi/disef/tree/main) and SynCLR for [`their codebase`](https://github.com/google-research/syn-rep-learn/tree/main/SynCLR).
-- Thanks also go to authors of other papers who make their code publicly available.
+- We thank the authors of CLIP and DINOv2. This repository is built upon the official implementations of [`CLIP`](https://github.com/openai/CLIP) and [`DINOv2`](https://github.com/facebookresearch/dinov2).
+
+- We are also grateful to the authors of CoOp for providing [`dataset instructions`](https://github.com/KaiyangZhou/CoOp/blob/main/DATASETS.md), DISEF for [`their codebase`](https://github.com/vturrisi/disef/tree/main), and SynCLR for [`their codebase`](https://github.com/google-research/syn-rep-learn/tree/main/SynCLR).
+
+- We further acknowledge the contributions of other researchers who have made their code publicly available.
+
 
 ## Citation
 
-If this repository or the paper `ImagineFSL: Self-Supervised Pretraining Matters on Imagined Base Set for VLM-based Few-shot Learning` is helpful for your research, please consider citing the paper:
+If this repository or the paper "ImagineFSL: Self-Supervised Pretraining Matters on Imagined Base Set for VLM-based Few-shot Learning" is helpful for your research, please consider citing the paper:
 
 ```BibTeX
 @InProceedings{ImagineFSL_CVPR25,
-    author    = {Yang, Haoyuan and Li, Xiaoou  and Lv, Jiaming and Cheng, Xianjun and Wang, Qilong and Li, Peihua},
+    author    = {Yang, Haoyuan and Li, Xiaoou and Lv, Jiaming and Cheng, Xianjun and Wang, Qilong and Li, Peihua},
     title     = {{ImagineFSL}: Self-Supervised Pretraining Matters on Imagined Base Set for {VLM}-based Few-shot Learning},
     booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
     year      = {2025},
