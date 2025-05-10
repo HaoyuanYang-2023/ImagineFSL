@@ -15,6 +15,7 @@
 
 ## Introduction
 
+
 This repository contains the official code for **"ImagineFSL: Self-Supervised Pretraining Matters on Imagined Base Set for VLM-based Few-shot Learning"** (🔥 **CVPR 2025 Highlight** ) 
 
 In this paper:
@@ -31,17 +32,10 @@ synthetic augmentation for effective view construction.
 
 - We develop **a systematic and scalable pipeline for synthesizing both captions and images**, enabling generation
 of large-scale base sets for pretraining and task-specific
-datasets. Distinct from existing arts, we leverage CoT and
-ICL techniques for diverse, realistic image generation.
-
-<!-- - We frame synthetic images as standalone knowledge repositories and present **a novel CLIP adaptation methodology** that pretrains on purely synthetic images before fine-tuning for few-shot tasks.
-- We propose **an improved Self-SL method** based on DINO. It introduces higher-order moments for image representation and employs synthetic augmentation for effective view construction.
-- We develop **a systematic and scalable pipeline** for synthesizing both captions and images, enabling generation of large-scale base sets for pretraining and task-specific datasets. -->
+datasets. Distinct from existing arts, **we leverage chain-of-though and in-conetext Learning techniques** for diverse, realistic image generation.
 
 
 ## Installation
-
-All our experiments are conducted on a PC with an Intel Core i9-13900K CPU and GeForce RTX 4090 GPUs.
 
 ### 1. Clone this repository:
 
@@ -52,7 +46,7 @@ cd ImagineFSL
 
 ### 2. Install dependencies:
 
-> To ensure stable and reproducible code execution, we strongly recommend setting up the following environment for experiments.
+> ⚠️ To ensure stable and reproducible code execution, we strongly recommend setting up the following environment for experiments.
 
 We conduct experiments using PyTorch 2.2.2 and Python 3.10. The CUDA version is 12.1. Install the corresponding PyTorch environment using:
 
@@ -67,6 +61,7 @@ pip install -r requirements.txt
 ```
 
 **Note**: We use Meta's xformers library to accelerate Attention computation. Different hardware environments may require different versions of xformers. The installation command is provided in `requirements.txt`, which is validated on RTX 4090 and 3090. If installation fails, try different versions. For more information, refer to the [`offical website of xformers`](https://github.com/facebookresearch/xformers).
+
 
 ## Dataset
 
