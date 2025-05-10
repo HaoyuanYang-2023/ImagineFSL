@@ -196,11 +196,12 @@ We provide download links for fine-tuned models on 1-/16-shot settings (ViT-B/16
 |ImagineFSL_LoRA|77.6 \| [`Baidu Yun`](https://pan.baidu.com/s/11P61q63LVbxxiX3ZsORpVA?pwd=a9md) \| [`Google Drive`](https://drive.google.com/drive/folders/10I_kpcFId7JQgByAgKasMeWsm7GaYq95?usp=sharing) | 87.6 \| [`Baidu Yun`]( https://pan.baidu.com/s/15XSGTHI_vF1sjCMgfELJAg?pwd=13ev) \| [`Google Dribe`](https://drive.google.com/drive/folders/11nlNzFf4anzZH8Bqhfia0uriOXRYuEtU?usp=sharing)|
 |||
 
-**See `readme.txt` in the above links for more details of the models and hyperparameters for inference.**
+*See `readme.txt` in the above links for more details of the models and hyperparameters for inference.**
 
-Detailed results of All K-shot settings can be found in [`here`](https://github.com/HaoyuanYang-2023/ImagineFSL/tree/main/results).
 
 **Note: Due to randomness, the results may slightly differ from those in the paper. We recommend evaluating all methods and models across 11 datasets to observe the average performance.**
+
+**Detailed results of All K-shot settings can be found in [`here`](https://github.com/HaoyuanYang-2023/ImagineFSL/tree/main/results).**
 
 
 ## Acknowledgement
