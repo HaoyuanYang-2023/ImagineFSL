@@ -56,8 +56,6 @@ cd ImagineFSL
 
 We conduct experiments using PyTorch 2.2.2 and Python 3.10. The CUDA version is 12.1. 
 
-```
-
 Install the corresponding PyTorch version using:
 
 ```
