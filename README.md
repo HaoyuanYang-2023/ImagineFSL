@@ -6,10 +6,10 @@
 
 <h3 align="center">CVPR 2025 (Highlight)</h3>
 
-<h3 align="center">
+<!-- <h3 align="center">
     <a href="https://cvpr.thecvf.com/virtual/2025/poster/32717">[Paper]</a> •
     <a href="http://peihuali.org/ImagineFSL">[Project]</a>
-</h3>
+</h3> -->
 
 <div align="center"><img src="imgs/overview.gif" width="80%"></div>
 
@@ -188,7 +188,11 @@ sh run_imaginefsl_lora_eval.sh
 ```
 You need to specify the path to vision model, vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight, rank.
 
-We provide download links for fine-tuned models on 1-/16-shot settings (ViT-B/16) across 11 datasets:
+> **Note:** Due to the impact of randomness during training, the results on individual datasets may slightly differ from those in the paper. We recommend evaluating all methods across all 11 datasets and observing the average performance.
+
+**Models**:
+
+We provide download links for fine-tuned models on 1-/16-shot settings for ViT-B/16 across 11 datasets:
 
 |Method|1-shot|16-shot|
 |:-|:-:|:-:|
@@ -196,10 +200,7 @@ We provide download links for fine-tuned models on 1-/16-shot settings (ViT-B/16
 |ImagineFSL_LoRA|77.6 \| [`Baidu Yun`](https://pan.baidu.com/s/11P61q63LVbxxiX3ZsORpVA?pwd=a9md) \| [`Google Drive`](https://drive.google.com/drive/folders/10I_kpcFId7JQgByAgKasMeWsm7GaYq95?usp=sharing) | 87.6 \| [`Baidu Yun`]( https://pan.baidu.com/s/15XSGTHI_vF1sjCMgfELJAg?pwd=13ev) \| [`Google Dribe`](https://drive.google.com/drive/folders/11nlNzFf4anzZH8Bqhfia0uriOXRYuEtU?usp=sharing)|
 |||
 
-*See `readme.txt` in the above links for more details of the models and hyperparameters for inference.**
-
-
-**Note: Due to randomness, the results may slightly differ from those in the paper. We recommend evaluating all methods and models across 11 datasets to observe the average performance.**
+> ##### *See `readme.txt` in the above links for more details of the models and hyperparameters for inference.*
 
 **Detailed results of All K-shot settings can be found in [`here`](https://github.com/HaoyuanYang-2023/ImagineFSL/tree/main/results).**
 
