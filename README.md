@@ -32,7 +32,7 @@ synthetic augmentation for effective view construction.
 
 - We develop **a systematic and scalable pipeline for synthesizing both captions and images**, enabling generation
 of large-scale base sets for pretraining and task-specific
-datasets. Distinct from existing arts, **we leverage chain-of-though and in-conetext Learning techniques** for diverse, realistic image generation.
+datasets. Distinct from existing arts, **we leverage chain-of-though and in-conetext learning techniques** for diverse, realistic image generation.
 
 
 ## Installation
@@ -69,14 +69,14 @@ pip install -r requirements.txt
   
   The iBase dataset used for pretraining can be downloaded from the following links:
   
-  [`Baidu Yun`](https://pan.baidu.com/s/1-a4oFKiPFdD_QRGJqAN9jA?pwd=r9ur) | [`OneDrive`](https://maildluteducn-my.sharepoint.com/:u:/g/personal/yanghaoyuan_mail_dlut_edu_cn/EW67Bo9jyf5LtfQRjpFCnucB8wnoL3kPfCno4nGNSB5YHA?e=DFflEj)
+  [`Baidu Yun`](https://pan.baidu.com/s/1-a4oFKiPFdD_QRGJqAN9jA?pwd=r9ur) | [`Microsoft OneDrive`](https://maildluteducn-my.sharepoint.com/:u:/g/personal/yanghaoyuan_mail_dlut_edu_cn/EW67Bo9jyf5LtfQRjpFCnucB8wnoL3kPfCno4nGNSB5YHA?e=DFflEj)
 
 - **10 Downstream Datasets (Real Images)**:
 
   We provide the following download links for the 10 downstream datasets used in our experiments (except ImageNet).
   *These datasets are identical to those provided by [`CoOp`](https://github.com/KaiyangZhou/CoOp/blob/main/DATASETS.md) but with standardized file organization for PyTorch compatibility*.
   
-   [`Baidu Yun`](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) | [`OneDrive`](https://maildluteducn-my.sharepoint.com/:f:/g/personal/yanghaoyuan_mail_dlut_edu_cn/Emd9FEmohW9Mkj392CH8zjcBVnz1BmYTGNZHEIX3gjhdpg?e=WnChnu)
+   [`Baidu Yun`](https://pan.baidu.com/s/17k-xFrEtBdwh8taFtPcpwg?pwd=7fm5) | [`Microsoft OneDrive`](https://maildluteducn-my.sharepoint.com/:f:/g/personal/yanghaoyuan_mail_dlut_edu_cn/Emd9FEmohW9Mkj392CH8zjcBVnz1BmYTGNZHEIX3gjhdpg?e=WnChnu)
 
 
 
@@ -166,7 +166,7 @@ Run the following command for pretraining:
 sh run_pretrain.sh
 ```
 
-You need to specify the hyperparameters for pretraining in the config files in the `dinov2/config/train/` folder.
+You need to specify the hyperparameters for pretraining in the config files in the `dinov2/config/train` folder.
 
 
 We provide download links for the pretrained model weights of CLIP ViT-B/16 and CLIP ViT-L/14:
@@ -193,11 +193,10 @@ For evaluation, run the following command:
 ```
 sh run_imaginefsl_eval.sh
 ```
-<!-- You need to specify the path to vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight and temperature optimized in the previous step.  -->
 
 **ImagineFSL_LoRA**:
 
-Run the following command for ImagenFSL_LoRA$ fine-tuning:
+Run the following command for ImagenFSL_LoRA fine-tuning:
 ```
 sh run_imaginefsl_lora.sh
 ```
@@ -209,7 +208,6 @@ For evaluation, run the following command:
 ```
 sh run_imaginefsl_lora_eval.sh
 ```
-<!-- You need to specify the path to vision model, vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight, rank. -->
 
 > **Note:** Due to the impact of randomness during training, the results on individual datasets may slightly differ from those in the paper. We recommend evaluating all methods across all 11 datasets and observing the average performance.
 
@@ -219,13 +217,13 @@ We provide download links for fine-tuned models on 1-/16-shot settings for ViT-B
 
 |Method|1-shot|16-shot|
 |:-|:-:|:-:|
-|ImagineFSL| 76.1 \| [`Baidu Yun`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq) \| [`Google Drive`](https://drive.google.com/drive/folders/1-6-kHsgYmXJAwbBn0HV4A2nYkd2bBgva?usp=drive_link)| 86.4 \| [`Baidu Yun`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f) \| [ `Google Drive`](https://drive.google.com/drive/folders/1-5MMNE69OQKCcAMqwCpVeX0hyfn7kt6W?usp=drive_link) |
+|ImagineFSL| 76.1 \| [`Baidu Yun`](https://pan.baidu.com/s/1Jpu45g3S3VizXuoz9_NMzQ?pwd=r5eq) \| [`Google Drive`](https://drive.google.com/drive/folders/1-6-kHsgYmXJAwbBn0HV4A2nYkd2bBgva?usp=drive_link) | 86.4 \| [`Baidu Yun`](https://pan.baidu.com/s/1JMLmzoJ8AqKRyV_ONv9vVg?pwd=5i5f) \| [ `Google Drive`](https://drive.google.com/drive/folders/1-5MMNE69OQKCcAMqwCpVeX0hyfn7kt6W?usp=drive_link) |
 |ImagineFSL_LoRA|77.6 \| [`Baidu Yun`](https://pan.baidu.com/s/11P61q63LVbxxiX3ZsORpVA?pwd=a9md) \| [`Google Drive`](https://drive.google.com/drive/folders/10I_kpcFId7JQgByAgKasMeWsm7GaYq95?usp=sharing) | 87.6 \| [`Baidu Yun`]( https://pan.baidu.com/s/15XSGTHI_vF1sjCMgfELJAg?pwd=13ev) \| [`Google Drive`](https://drive.google.com/drive/folders/11nlNzFf4anzZH8Bqhfia0uriOXRYuEtU?usp=sharing)|
 |||
 
 > ##### *See `readme.txt` in the above links for more details of the models and hyperparameters for inference.*
 
-**Detailed results of All K-shot settings can be found in `results/` folder.**
+**Detailed results of All K-shot settings can be found in `results` folder.**
 
 
 ## Acknowledgement
