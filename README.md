@@ -195,7 +195,7 @@ sh run_imaginefsl_eval.sh
 ```
 <!-- You need to specify the path to vision classifier, adapter, text classifier and pretrained model weights in the shell, and set the corresponding fusion weight and temperature optimized in the previous step.  -->
 
-**ImagineFSL_LoRA$**:
+**ImagineFSL_LoRA**:
 
 Run the following command for ImagenFSL_LoRA$ fine-tuning:
 ```
