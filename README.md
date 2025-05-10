@@ -54,7 +54,9 @@ cd ImagineFSL
 
 > For the stability and reproducibility of code execution, we highly recommend using the following environment for experiments.
 
-We conduct experiments using PyTorch 2.2.2 and Python 3.10. The CUDA used is 12.1.
+We conduct experiments using PyTorch 2.2.2 and Python 3.10. The CUDA version is 12.1. 
+
+```
 
 Install the corresponding PyTorch version using:
 
@@ -68,7 +70,7 @@ Install other dependencies using:
 pip install -r requirements.txt
 ```
 
-**Note**: We use Facebook's xformers to accelerate Attention computation. Different hardware environments may require different versions. We provide the xformers installation command in requirements.txt, but successful installation is not guaranteed (verified working on RTX 4090 and 3090). If installation fails, try different versions.
+**Note**: We use Meta's xformers library to accelerate Attention computation. Different hardware environments may require different versions. We provide the xformers installation command in requirements.txt, but successful installation is not guaranteed (verified working on RTX 4090 and 3090). If installation fails, try different versions.
 
 ## Getting started
 
