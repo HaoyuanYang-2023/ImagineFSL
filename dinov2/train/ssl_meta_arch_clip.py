@@ -75,18 +75,18 @@ class SSLMetaArch(nn.Module):
         student_model_dict["adapter"] = student_adapter
         teacher_model_dict["adapter"] = teacher_adapter
         
-        gauss_pool = HoMPool()
+        hom_pool = HoMPool()
         
-        gauss_params = count_parameters(gauss_pool)
+        hom_params = count_parameters(hom_pool)
         
-        student_model_dict["gauss_pool"] = deepcopy(gauss_pool)
-        teacher_model_dict["gauss_pool"] = deepcopy(gauss_pool)
+        student_model_dict["hom_pool"] = deepcopy(hom_pool)
+        teacher_model_dict["hom_pool"] = deepcopy(hom_pool)
         
         torch.cuda.empty_cache()
         
         logger.info(f"OPTIONS -- architecture : embed_dim: {embed_dim}")
         logger.info(f"OPTIONS -- architecture : adapter_params: {adapter_params}")
-        logger.info(f"OPTIONS -- architecture : gauss_params: {gauss_params}")
+        logger.info(f"OPTIONS -- architecture : hom_params: {hom_params}")
         
         # text_adapter_params = count_parameters(self.text_adapter)
         # logger.info(f"OPTIONS -- architecture : text_adapter_params: {text_adapter_params}")
@@ -227,7 +227,7 @@ class SSLMetaArch(nn.Module):
             teacher_patch_tokens = teacher_backbone_output_dict["x_norm_patchtokens"] # [2BS x 196 x 512]
             teacher_tokens = torch.cat((teacher_cls_tokens.unsqueeze(1), teacher_patch_tokens), dim=1) # [2BS x 197 x 512]
 
-            teacher_gauss = self.teacher.gauss_pool(teacher_tokens) # [2BS x D_gauss]
+            teacher_gauss = self.teacher.hom_pool(teacher_tokens) # [2BS x D_gauss]
 
             # chunk 2 views
             teacher_gauss = teacher_gauss.chunk(n_global_crops_teacher) 
@@ -350,7 +350,7 @@ class SSLMetaArch(nn.Module):
         student_global_patch_tokens = student_global_backbone_output_dict["x_norm_patchtokens"]
         student_global_tokens = torch.cat((student_global_cls_tokens.unsqueeze(1), student_global_patch_tokens), dim=1)
         # student_global_tokens = self.student.dimension_reduction(student_global_tokens)
-        student_global_gauss = self.student.gauss_pool(student_global_tokens)
+        student_global_gauss = self.student.hom_pool(student_global_tokens)
         inputs_for_student_head_list.append(student_global_gauss.unsqueeze(0))
         # inputs_for_student_head_list.append(student_global_cls_tokens.unsqueeze(0))
 

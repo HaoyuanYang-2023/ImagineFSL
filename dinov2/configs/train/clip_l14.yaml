@@ -26,7 +26,7 @@ compute_precision:
         param_dtype: fp16
         reduce_dtype: fp16
         buffer_dtype: fp32
-    gauss_pool:
+    hom_pool:
       sharding_strategy: SHARD_GRAD_OP
       mixed_precision:
         param_dtype: fp32
@@ -57,7 +57,7 @@ compute_precision:
         param_dtype: fp16
         reduce_dtype: fp16
         buffer_dtype: fp32
-    gauss_pool:
+    hom_pool:
       sharding_strategy: SHARD_GRAD_OP
       mixed_precision:
         param_dtype: fp32
