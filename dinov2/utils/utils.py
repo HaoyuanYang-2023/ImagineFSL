@@ -32,7 +32,7 @@ def load_pretrained_weights(model, pretrained_weights, checkpoint_key):
     state_dict = {k.replace("backbone.", ""): v for k, v in state_dict.items()}
     
     state_dict = {k.replace("adapter.", ""): v for k, v in state_dict.items()}
-    state_dict = {k.replace("gauss_pool.", ""): v for k, v in state_dict.items()}
+    state_dict = {k.replace("hom_pool.", ""): v for k, v in state_dict.items()}
     # import pdb; pdb.set_trace()
     state_dict = {k.replace("dino_head.", ""): v for k, v in state_dict.items()}
     # import pdb; pdb.set_trace()
