@@ -6,10 +6,10 @@
 
 <h3 align="center">✨ CVPR 2025 (Highlight) ✨</h3>
 
-<!-- <h3 align="center">
-    <a href="https://cvpr.thecvf.com/virtual/2025/poster/32717">[Paper]</a> •
+<h3 align="center">
+    <a href="https://openaccess.thecvf.com/content/CVPR2025/papers/Yang_ImagineFSL_Self-Supervised_Pretraining_Matters_on_Imagined_Base_Set_for_VLM-based_CVPR_2025_paper.pdf">[Paper]</a> •
     <a href="http://peihuali.org/ImagineFSL">[Project]</a>
-</h3> -->
+</h3>
 
 <div align="center"><img src="imgs/overview.gif" width="80%"></div>
 
