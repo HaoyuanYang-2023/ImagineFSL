@@ -4,10 +4,9 @@
 
 <!-- <h5 align="center">Dalian University of Technology &nbsp; Beijing University of Posts and Telecommunications &nbsp; Tianjin University</h5> -->
 
-<div align="center">
-  <img src="imgs/award1.png" width="20" style="vertical-align: middle;">
-  <span style="margin-left: 10px; font-size: 18px;">CVPR 2025 (Highlight)</span>
-</div>
+<p align="center">
+  <img src="imgs/award1.png" width="15"> <strong>CVPR 2025 Highlight</strong>
+</p>
 
 <h3 align="center">
     <a href="https://openaccess.thecvf.com/content/CVPR2025/papers/Yang_ImagineFSL_Self-Supervised_Pretraining_Matters_on_Imagined_Base_Set_for_VLM-based_CVPR_2025_paper.pdf">[Paper]</a> •
