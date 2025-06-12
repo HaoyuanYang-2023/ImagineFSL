@@ -5,8 +5,12 @@
 <!-- <h5 align="center">Dalian University of Technology &nbsp; Beijing University of Posts and Telecommunications &nbsp; Tianjin University</h5> -->
 
 <h3 align="center">
-  <img src="imgs/award.png" width="5%" style="vertical-align: middle;"> 
-  <span style="vertical-align: middle;">&nbsp; CVPR 2025 (Highlight)</span>
+  <div align="center">
+    <span style="display: inline-flex; align-items: center;">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="imgs/award.png" width="10%">
+      CVPR 2025 (Highlight)
+    </span>
+  </div>
 </h3>
 
 <h3 align="center">
@@ -19,7 +23,7 @@
 ## Introduction
 
 
-This repository contains the official code for **"ImagineFSL: Self-Supervised Pretraining Matters on Imagined Base Set for VLM-based Few-shot Learning"** &nbsp;&nbsp;(<img src="imgs/award.png" width="20" style="vertical-align: middle;"> **CVPR 2025 Highlight**)
+This repository contains the official code for **"ImagineFSL: Self-Supervised Pretraining Matters on Imagined Base Set for VLM-based Few-shot Learning"** &nbsp;&nbsp;(<img src="imgs/award1.png" width="15"> **CVPR 2025 Highlight**)
 
 In this paper:
 
