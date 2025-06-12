@@ -5,7 +5,7 @@
 <!-- <h5 align="center">Dalian University of Technology &nbsp; Beijing University of Posts and Telecommunications &nbsp; Tianjin University</h5> -->
 
 <h3 align="center">
-  <img src="imgs/subtitle.png" width="70%"> 
+  <img src="imgs/subtitle.png" width="50%"> 
   <!-- &nbsp; CVPR 2025 (Highlight)</span> -->
 </h3>
 
