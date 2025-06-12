@@ -19,7 +19,7 @@
 ## Introduction
 
 
-This repository contains the official code for **"ImagineFSL: Self-Supervised Pretraining Matters on Imagined Base Set for VLM-based Few-shot Learning"** &nbsp;&nbsp;(<img src="imgs/award.png" width="20" style="vertical-align: middle;"> **CVPR 2025 Highlight**)
+This repository contains the official code for **"ImagineFSL: Self-Supervised Pretraining Matters on Imagined Base Set for VLM-based Few-shot Learning"** &nbsp;&nbsp;(<img src="imgs/award1.png" width="10" style="vertical-align: middle;"> **CVPR 2025 Highlight**)
 
 In this paper:
 
