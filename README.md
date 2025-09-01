@@ -66,6 +66,11 @@ pip install -r requirements.txt
 
 **Note**: We use Meta's xformers library to accelerate Attention computation. Different hardware environments may require different versions of xformers. The installation command is provided in `requirements.txt`, which is validated on RTX 4090 and 3090. If installation fails, try different versions. For more information, refer to the [`offical website of xformers`](https://github.com/facebookresearch/xformers).
 
+#### Alternatively, you can use our provided Docker image, which contains all the required environments and dependencies for running the program.
+To get the image, run the following command:
+```
+docker pull haoyuanyang2001/imaginefsl:v1
+```
 
 ## Dataset
 
